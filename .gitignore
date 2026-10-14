@@ -1,0 +1,19 @@
+# Secrets and participant data - NEVER commit
+.env
+.env.*
+!.env.example
+.private-data/
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
+*.pyc
+*.pyo
+node_modules/
+.DS_Store
+submissions/
+uploads/
+private_uploads/
