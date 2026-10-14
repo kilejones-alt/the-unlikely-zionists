@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Story review — The Unlikely Zionists</title><style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#9e003c;background:#a7f3ef}*{box-sizing:border-box}body{margin:0;padding:36px 5vw}h1{font-size:clamp(35px,5vw,65px);line-height:1.1;margin:0 0 12px}p{line-height:1.55}header{display:flex;align-items:start;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:28px}header a{color:inherit}.cards{display:grid;grid-template-columns:minmax(200px,340px) minmax(320px,1fr);gap:18px;align-items:start}.inbox,.details{background:#fff;border:2px solid #9e003c;padding:22px;min-height:350px}button{background:#9e003c;color:#fff;border:1px solid #9e003c;cursor:pointer;padding:12px 14px;line-height:1.4;font-size:14px}button:hover{background:#fff;color:#9e003c}button:disabled{opacity:.5;cursor:not-allowed}.item{display:block;width:100%;margin:8px 0;text-align:left;padding:14px}.pill{display:inline-block;border:1px solid #9e003c;padding:3px 6px;margin-left:6px;text-transform:uppercase;font-size:10px}.response{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;padding:14px 0;border-top:1px solid #e9bfcf}.response label{display:block;font-size:12px;font-weight:700;margin-bottom:5px}.actions{display:flex;gap:10px;flex-wrap:wrap}.images{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.images img{max-width:100%;display:block}.error{color:#7d002b;font-weight:700}.warning{border-left:5px solid #9e003c;padding:9px 16px;background:white;font-size:14px}.delete{background:#333;border-color:#333}small{font-size:12px}@media(max-width:800px){.cards{grid-template-columns:1fr}body{padding:20px}}</style></head>
+<body><header><div><h1>Story review</h1><p>Private editorial inbox. Every submission remains unpublished unless deliberately approved and publication permission was granted.</p></div><a href="/">Back to site</a></header><div class="warning">Never approve before checking the person's permission, words, photographs, and any third-party privacy concerns. Images require separate publication consent.</div>
+<div class="cards"><aside class="inbox"><h2>Inbox</h2><p id="queue-status" role="status">Loading…</p><div id="queue"></div></aside><main class="details" id="details"><p>Select a submission to review it.</p></main></div>
+<script>
+const queue=document.getElementById('queue'),details=document.getElementById('details'),status=document.getElementById('queue-status');
+let items=[];
+async function getItems(){
+  try{const response=await fetch('/api/admin/stories',{credentials:'same-origin',cache:'no-store'});if(!response.ok)throw new Error('Unable to load inbox');const data=await response.json();items=data.items||[];renderQueue()}
+  catch(e){status.textContent=e.message}
+}
+function element(tag,text,className){const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);if(className)n.className=className;return n}
+function renderQueue(){queue.replaceChildren();status.textContent=`${items.length} submissions`;
+  for(const item of items){const button=element('button',`${item.created_at.slice(0,10)} — ${item.identity==='anonymous'?'Anonymous':item.display_name} [${item.status}]`,'item');button.onclick=()=>renderDetails(item);queue.append(button)}}
+function field(parent,label,value){const section=element('section',undefined,'response');section.append(element('label',label));section.append(element('div',value||'—'));parent.append(section)}
+function renderDetails(item){details.replaceChildren();details.append(element('h2',item.identity==='anonymous'?'Anonymous':item.display_name));
+  details.append(element('p',`Status: ${item.status}`));
+  field(details,'Private contact (never publicly displayed)',item.private_email || 'Not provided');
+  field(details,'Change status',item.change_status);field(details,'Story',item.story);field(details,'Turning point',item.turning_point);
+  field(details,'October 7 response',item.october_7);field(details,'Influences',(item.influences||[]).join(', '));field(details,'Additional notes',item.additional);
+  field(details,'Story publication consent',item.consent_publish?'Yes':'No');field(details,'Photo publication consent',item.consent_image_publish?'Yes':'No');
+  const photos=element('div');photos.className='images';
+  for(const photo of item.photos){const img=document.createElement('img');img.src=photo.download_url;img.alt='Private submitted image, moderation only';photos.append(img)}
+  const label=element('h3','Submitted photographs');details.append(label,photos);
+  const actions=element('div');actions.className='actions';
+  for(const [label,next] of [['Approve for publication','approved'],['Hold privately','pending'],['Reject','rejected']]){
+    const btn=element('button',label);if(next==='approved'&&!item.consent_publish)btn.disabled=true;
+    btn.onclick=async()=>{
+      if(next==='approved'&&!confirm('Publish this exact story? Review consent, identifying details, and third-party privacy before confirming.'))return;
+      try{const res=await fetch('/api/admin/stories/'+item.id,{method:'PATCH',headers:{'Content-Type':'application/json','X-Review-Action':'1'},body:JSON.stringify({status:next})});if(!res.ok)throw new Error((await res.json()).detail||'Not saved');await getItems();renderDetails(items.find(x=>x.id===item.id)||item)}catch(e){alert(e.message)}
+    };actions.append(btn)
+  }
+  const remove=element('button','Permanently delete','delete');remove.onclick=async()=>{
+    if(!confirm('Permanently delete this submission and its images? This cannot be undone.'))return;
+    try{const res=await fetch('/api/admin/stories/'+item.id,{method:'DELETE',headers:{'X-Review-Action':'1'}});if(!res.ok)throw new Error('Could not delete');await getItems();details.replaceChildren(element('p','Deleted'))}catch(e){alert(e.message)}
+  };actions.append(remove);details.append(actions)
+}
+getItems();
+</script></body></html>
