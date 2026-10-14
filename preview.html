@@ -319,6 +319,44 @@ html:not(.is-ready) .viewer-story-template {
 .fallback-nav a {text-decoration:underline; text-underline-offset:4px; }
 @media(max-width:600px) { .fallback-nav {position:absolute;top:110px;right:20px;left:20px;justify-content:flex-end;font-size:10px;} }
 
+
+.story-card-copy{position:absolute;left:18px;right:18px;bottom:16px;z-index:5;font-family:'Fraunces',Georgia,serif;color:var(--ruby);text-align:left;line-height:1.1;pointer-events:none;text-wrap:balance}
+.story-card-copy strong{display:block;font-size:clamp(22px,2.4vw,34px);line-height:1.02;letter-spacing:-.04em}
+.story-card-copy em{display:block;font-style:normal;font-family:'DM Sans',Arial,sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-top:10px}
+.story-card-copy p{margin:10px 0 0;font-family:'DM Sans',Arial,sans-serif;font-size:13px;line-height:1.5}
+.story-card.copy-card .photo-plane{background:linear-gradient(180deg,rgba(167,243,239,.35),rgba(255,255,255,.98));}
+.story-card.copy-card .photo-placeholder-art{opacity:.42}
+.story-card.photo-slot .photo-plane{inset:14px;border:1px solid var(--ruby);display:flex;align-items:flex-end;justify-content:center;background:linear-gradient(160deg,rgba(167,243,239,.78),rgba(255,255,255,.96));}
+.story-card.photo-slot .photo-plane::before{inset:7% 9%;opacity:.22}
+.story-card.photo-slot .photo-plane::after{inset:15% 19%;opacity:.14}
+.story-card.photo-slot .photo-surface::after{content:'KILE PHOTO';position:absolute;left:20px;top:20px;font:700 11px/1 'DM Sans',Arial,sans-serif;letter-spacing:.16em;color:var(--ruby);}
+.story-card.photo-slot .story-card-copy{left:16px;right:16px;bottom:12px;background:rgba(255,255,255,.94);border:1px solid rgba(158,0,60,.18);padding:10px 12px}
+.story-card.photo-slot .story-card-copy strong{font-size:16px}
+.story-card.photo-slot .story-card-copy p{font-size:12px;margin-top:6px}
+
+
+.menu-items .arr, .join-button [aria-hidden='true'], #story-next [aria-hidden='true'], #story-send [aria-hidden='true']{font-family:'Fraunces',Georgia,serif;font-size:clamp(22px,2.6vw,34px);font-weight:700;line-height:1;color:currentColor}
+.join-button [aria-hidden='true'], #story-next [aria-hidden='true'], #story-send [aria-hidden='true']{font-size:24px}
+.res-panel>div{display:flex;align-items:flex-end;justify-content:flex-start;padding:clamp(16px,2.5vw,28px)}
+.res-label{display:block;font-family:'Fraunces',Georgia,serif;font-size:clamp(28px,3.1vw,52px);line-height:.96;letter-spacing:-.04em;max-width:8ch;color:var(--ruby);text-wrap:balance}
+.res-panel:nth-child(2) .res-label{color:var(--white)}
+@media(max-width:600px){.res-label{font-size:clamp(20px,5.8vw,34px);max-width:7ch}}
+
+
+/* Readable full-text chapter overlay with cinematic motion retained. */
+.story-viewer.is-text-chapter #viewer-photo{opacity:.18;pointer-events:none;filter:blur(1px);}
+.story-viewer.is-text-chapter .viewer-story-template{opacity:.1;}
+.story-viewer.is-text-chapter .viewer-public-story{width:min(760px,78vw);max-height:62vh;top:19%;bottom:auto;left:50%;right:auto;padding:clamp(25px,4vw,58px);background:rgba(255,255,255,.97);box-shadow:20px 24px 0 rgba(158,0,60,.18);}
+.story-viewer.is-open.is-text-chapter .viewer-public-story{transform:translate(-50%,0);}
+.story-viewer.is-text-chapter .viewer-public-story h3{font-size:clamp(29px,4.2vw,56px)}
+.story-viewer.is-text-chapter .viewer-public-story #viewer-public-text{font-size:clamp(15px,1.45vw,20px);line-height:1.75}
+.story-viewer.is-text-chapter .viewer-public-story #viewer-public-turning-point{font-size:13px;letter-spacing:.03em}
+@media(max-width:600px){
+.story-viewer.is-text-chapter .viewer-public-story{width:calc(100% - 36px);max-height:68vh;top:16%;bottom:auto;padding:22px;}
+.story-viewer.is-text-chapter .viewer-public-story h3{font-size:30px}
+.story-viewer.is-text-chapter .viewer-public-story #viewer-public-text{font-size:15px;line-height:1.65}
+}
+
 </style>
 </head>
 <body>
@@ -327,16 +365,39 @@ html:not(.is-ready) .viewer-story-template {
     <header class="site-header" id="site-header">
       <a class="brand" href="#home" aria-label="The Unlikely Zionists, home"><span>THE</span><span>UNLIKELY</span><span>ZIONISTS</span></a>
       <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="site-menu"><span class="menu-label">MENU</span><span class="menu-bars" aria-hidden="true"><i></i><i></i></span></button>
-    <noscript><style>.menu-button{display:none!important}</style><nav class="fallback-nav" aria-label="Preview navigation"><a href="#stories">STORIES</a><a href="#community">COMMUNITY</a><a href="#resources">RESOURCES</a><a href="#submit">SUBMIT</a></nav></noscript>
+    <noscript><style>.menu-button{display:none!important}
+.story-card-copy{position:absolute;left:18px;right:18px;bottom:16px;z-index:5;font-family:'Fraunces',Georgia,serif;color:var(--ruby);text-align:left;line-height:1.1;pointer-events:none;text-wrap:balance}
+.story-card-copy strong{display:block;font-size:clamp(22px,2.4vw,34px);line-height:1.02;letter-spacing:-.04em}
+.story-card-copy em{display:block;font-style:normal;font-family:'DM Sans',Arial,sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-top:10px}
+.story-card-copy p{margin:10px 0 0;font-family:'DM Sans',Arial,sans-serif;font-size:13px;line-height:1.5}
+.story-card.copy-card .photo-plane{background:linear-gradient(180deg,rgba(167,243,239,.35),rgba(255,255,255,.98));}
+.story-card.copy-card .photo-placeholder-art{opacity:.42}
+.story-card.photo-slot .photo-plane{inset:14px;border:1px solid var(--ruby);display:flex;align-items:flex-end;justify-content:center;background:linear-gradient(160deg,rgba(167,243,239,.78),rgba(255,255,255,.96));}
+.story-card.photo-slot .photo-plane::before{inset:7% 9%;opacity:.22}
+.story-card.photo-slot .photo-plane::after{inset:15% 19%;opacity:.14}
+.story-card.photo-slot .photo-surface::after{content:'KILE PHOTO';position:absolute;left:20px;top:20px;font:700 11px/1 'DM Sans',Arial,sans-serif;letter-spacing:.16em;color:var(--ruby);}
+.story-card.photo-slot .story-card-copy{left:16px;right:16px;bottom:12px;background:rgba(255,255,255,.94);border:1px solid rgba(158,0,60,.18);padding:10px 12px}
+.story-card.photo-slot .story-card-copy strong{font-size:16px}
+.story-card.photo-slot .story-card-copy p{font-size:12px;margin-top:6px}
+
+
+.menu-items .arr, .join-button [aria-hidden='true'], #story-next [aria-hidden='true'], #story-send [aria-hidden='true']{font-family:'Fraunces',Georgia,serif;font-size:clamp(22px,2.6vw,34px);font-weight:700;line-height:1;color:currentColor}
+.join-button [aria-hidden='true'], #story-next [aria-hidden='true'], #story-send [aria-hidden='true']{font-size:24px}
+.res-panel>div{display:flex;align-items:flex-end;justify-content:flex-start;padding:clamp(16px,2.5vw,28px)}
+.res-label{display:block;font-family:'Fraunces',Georgia,serif;font-size:clamp(28px,3.1vw,52px);line-height:.96;letter-spacing:-.04em;max-width:8ch;color:var(--ruby);text-wrap:balance}
+.res-panel:nth-child(2) .res-label{color:var(--white)}
+@media(max-width:600px){.res-label{font-size:clamp(20px,5.8vw,34px);max-width:7ch}}
+
+</style><nav class="fallback-nav" aria-label="Preview navigation"><a href="#stories">STORIES</a><a href="#community">COMMUNITY</a><a href="#resources">RESOURCES</a><a href="#submit">SUBMIT</a></nav></noscript>
       </header>
 
     <nav class="menu-overlay" id="site-menu" aria-label="Site navigation" aria-hidden="true" inert>
       <div class="menu-architectural" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="menu-items">
-        <a href="#stories"><span>STORIES</span><span class="arr" aria-hidden="true">↗</span></a>
-        <a href="#community"><span>COMMUNITY</span><span class="arr" aria-hidden="true">↗</span></a>
-        <a href="#resources"><span>RESOURCES</span><span class="arr" aria-hidden="true">↗</span></a>
-        <a href="#submit"><span>SUBMIT</span><span class="arr" aria-hidden="true">↗</span></a>
+        <a href="#stories"><span>STORIES</span><span class="arr" aria-hidden="true">→</span></a>
+        <a href="#community"><span>COMMUNITY</span><span class="arr" aria-hidden="true">→</span></a>
+        <a href="#resources"><span>RESOURCES</span><span class="arr" aria-hidden="true">→</span></a>
+        <a href="#submit"><span>SUBMIT</span><span class="arr" aria-hidden="true">→</span></a>
       </div>
     </nav>
 
@@ -359,11 +420,11 @@ html:not(.is-ready) .viewer-story-template {
         <div class="story-stage" id="story-stage">
           <div class="stage-rails" aria-hidden="true"><span></span><span></span><span></span></div>
           <div class="story-deck" id="story-deck" role="group" aria-label="Photographic story positions">
-            <button type="button" class="story-card" data-index="0" aria-label="Choose an approved photograph for this story position" style="--offset:-2" ><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span></span></span></span></button>
-            <button type="button" class="story-card" data-index="1" aria-label="Choose an approved photograph for this story position" style="--offset:-1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span></span></span></span></button>
-            <button type="button" class="story-card" data-index="2" aria-label="Choose an approved photograph for this story position" style="--offset:0"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span></span></span></span></button>
-            <button type="button" class="story-card" data-index="3" aria-label="Choose an approved photograph for this story position" style="--offset:1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span></span></span></span></button>
-            <button type="button" class="story-card" data-index="4" aria-label="Choose an approved photograph for this story position" style="--offset:2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span></span></span></span></button>
+            <button type="button" class="story-card copy-card" data-index="0" aria-label="Open Kile story introduction" style="--offset:0"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile is an unlikely Zionist.</strong><em>Story 01</em></span></span></span></span></button>
+            <button type="button" class="story-card copy-card" data-index="1" aria-label="Open Kile story details" style="--offset:1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile is non-Jewish.</strong><p>He’s an atheist. He’s a liberal. He’s never been to Israel.</p></span></span></span></span></button>
+            <button type="button" class="story-card photo-slot" data-index="2" aria-label="Open Kile photo frame" style="--offset:2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Here’s the story.</strong><p>Photo frame ready for Kile’s approved image.</p></span></span></span></span></button>
+            <button type="button" class="story-card copy-card" data-index="3" aria-label="Open Kile story text" style="--offset:-2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile's story</strong><p>After October 7th, I began questioning my views of Israel.</p></span></span></span></span></button>
+            <button type="button" class="story-card copy-card" data-index="4" aria-label="Read Kile’s full story" style="--offset:-1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Read the full story.</strong><p>Continue to Kile’s complete account.</p></span></span></span></span></button>
           </div>
           <div class="deck-controls">
             <button id="deck-prev" type="button" class="round-arrow" aria-label="Previous photograph position"><svg viewBox="0 0 34 30" aria-hidden="true"><path d="M32 15H2m12-12L2 15l12 12"/></svg></button>
@@ -384,8 +445,8 @@ html:not(.is-ready) .viewer-story-template {
           <form class="community-form" id="community-form" novalidate>
             <div class="field"><label for="member-name">NAME</label><input id="member-name" name="name" autocomplete="name" required maxlength="100"></div>
             <div class="field"><label for="member-email">EMAIL</label><input id="member-email" type="email" name="email" autocomplete="email" required maxlength="254"></div>
-            <label class="consent"><input type="checkbox" id="member-consent" name="consent" required><span>I agree to be contacted about The Unlikely Zionists community.</span></label>
-            <button type="submit" class="join-button" disabled aria-describedby="form-status"><span>JOIN</span><span aria-hidden="true">↗</span></button>
+            <label class="consent"><input type="checkbox" id="member-consent" name="consent" required><span>I agree to be contacted by Unlikely Zionists.</span></label>
+            <button type="submit" class="join-button" disabled aria-describedby="form-status"><span>JOIN</span><span aria-hidden="true">→</span></button>
             <p id="form-status" class="sr-only" aria-live="polite"></p>
           </form>
         </div>
@@ -393,7 +454,7 @@ html:not(.is-ready) .viewer-story-template {
 
       <section class="resources scene" id="resources" data-section="resources" aria-labelledby="resources-title">
         <div class="resources-head reveal"><h2 id="resources-title">RESOURCES</h2></div>
-        <div class="resources-panels" aria-hidden="true"><div class="res-panel"><div></div></div><div class="res-panel"><div></div></div><div class="res-panel"><div></div></div></div>
+        <div class="resources-panels"><div class="res-panel"><div><span class="res-label">Other Unlikely Zionists</span></div></div><div class="res-panel"><div><span class="res-label">Challenging Stereotypes</span></div></div><div class="res-panel"><div><span class="res-label">How to Respond</span></div></div></div>
         <div class="resources-underline" aria-hidden="true"></div>
       </section>
 
@@ -415,19 +476,19 @@ html:not(.is-ready) .viewer-story-template {
             <div class="form-progress-track" aria-hidden="true"><span id="story-progress-line"></span></div>
             <div class="submission-steps">
               <section class="submission-step" data-step="0" aria-hidden="false" aria-labelledby="story-step-1">
-                <h3 id="story-step-1">How would you like to be known?</h3>
-                <p class="step-desc">Choose how your name would appear if you later give permission for your story to be published. Your contact details will never be displayed publicly.</p>
+                <h3 id="story-step-1">Choose what kind of Zionist you want to be.</h3>
+                <p class="step-desc">Choose how you would like to be known if you later give us permission for your story to be published. Your contact details will never be displayed publicly.</p>
                 <fieldset>
                   <legend>Choose one</legend>
                   <div class="option-row">
-                    <label class="choice-card"><input type="radio" name="identity" value="anonymous" checked> Stay anonymous</label>
-                    <label class="choice-card"><input type="radio" name="identity" value="first_name"> First name only</label>
-                    <label class="choice-card"><input type="radio" name="identity" value="full_name"> My name</label>
+                    <label class="choice-card"><input type="radio" name="identity" value="anonymous" checked> an anonymous Zionist</label>
+                    <label class="choice-card"><input type="radio" name="identity" value="first_name"> a Zionist by first name</label>
+                    <label class="choice-card"><input type="radio" name="identity" value="full_name"> a public Zionist</label>
                   </div>
                 </fieldset>
                 <div id="public-name-wrapper" class="form-field" hidden><label for="story-display-name">Name to use if published</label><input type="text" id="story-display-name" name="display_name" autocomplete="name" maxlength="90"></div>
-                <div class="form-field"><label for="story-private-email">Email for private follow-up (optional)</label><input type="email" id="story-private-email" name="private_email" autocomplete="email" maxlength="254"></div>
-                <p class="optional-note">You may submit anonymously without giving your name or email.</p>
+                <div class="form-field"><label for="story-private-email">Email for a likely follow-up</label><input type="email" id="story-private-email" name="private_email" autocomplete="email" maxlength="254"></div>
+                
               </section>
               <section class="submission-step" data-step="1" aria-hidden="true" aria-labelledby="story-step-2">
                 <h3 id="story-step-2">Tell us what changed.</h3>
@@ -488,8 +549,8 @@ html:not(.is-ready) .viewer-story-template {
             <div id="story-form-error" role="alert" aria-live="polite"></div>
             <div class="form-controls">
               <button type="button" id="story-back" hidden>Back</button>
-              <button type="button" id="story-next">Continue <span aria-hidden="true">↗</span></button>
-              <button type="submit" id="story-send" hidden>Submit privately <span aria-hidden="true">↗</span></button>
+              <button type="button" id="story-next">Continue <span aria-hidden="true">→</span></button>
+              <button type="submit" id="story-send" hidden>Submit privately <span aria-hidden="true">→</span></button>
             </div>
             <div id="story-form-success" aria-hidden="true" role="status">
               <h3>Your story was received privately.</h3>
@@ -520,7 +581,7 @@ html:not(.is-ready) .viewer-story-template {
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const state = {
-    active: 2,
+    active: 0,
     menuOpen: false,
     viewerOpen: false,
     lastFocus: null,
@@ -529,6 +590,34 @@ html:not(.is-ready) .viewer-story-template {
     published: [],
     rafPending: false
   };
+
+  const staticStories = [
+    {
+        "name": "Kile is an unlikely Zionist.",
+        "story": "Kile is an unlikely Zionist.",
+        "turning_point": ""
+    },
+    {
+        "name": "Kile",
+        "story": "Kile is non-Jewish. He's an atheist. He's a liberal. He's never been to Israel.",
+        "turning_point": ""
+    },
+    {
+        "name": "Kile",
+        "story": "A portrait of Kile will appear here when he provides the photograph.",
+        "turning_point": "Here's the story."
+    },
+    {
+        "name": "Kile's story",
+        "story": "After October 7th, I began questioning what I had believed about Israel for years. What happened to a Jewish friend and what I saw in my own political circles made me reconsider assumptions I'd acquired in graduate school. I spent the next year researching the history for myself.",
+        "turning_point": "Swipe right to read Kile's full story."
+    },
+    {
+        "name": "Kile's story",
+        "story": "After October 7th, I began questioning my views of Israel. In graduate school at Boston University, postcolonial and other critical theories had led me to see Israel as a Western construct and an illegitimate nation-state. But after seeing what happened to a Jewish friend, and how many fellow liberals treated Jews, I felt something was deeply wrong. The headlines, slogans, and repeated libels pushed me to study the origins of the state and revisit the scholarship for myself. Over the following year, I deconstructed my assumptions and came to see the familiar depiction of Israel as a settler-colonial, imperialist caricature rather than a truthful account. I now view Israel positively and work with the Jewish community to fight antizionism, antisemitism, and the many ways Jew-hatred is manifested.",
+        "turning_point": ""
+    }
+];
 
   const header = document.querySelector('#site-header');
   const menu = document.querySelector('#site-menu');
@@ -578,11 +667,14 @@ html:not(.is-ready) .viewer-story-template {
       card.style.visibility = abs > 2 ? 'hidden' : 'visible';
       card.classList.toggle('is-active', offset === 0);
       card.tabIndex = offset === 0 ? 0 : -1;
+      const staticItem = staticStories[idx];
       card.setAttribute('aria-label', state.published[idx]
         ? (offset === 0 ? 'Open approved story from '+state.published[idx].name : 'Select approved story from '+state.published[idx].name)
-        : state.photos[idx]
-          ? (offset === 0 ? 'Open this real photograph as an immersive story preview' : 'Select this photographic story position')
-          : (offset === 0 ? 'Open empty story template ' + (idx + 1) : 'Select empty story template ' + (idx + 1)));
+        : staticItem
+          ? (offset === 0 ? 'Open '+staticItem.name : 'Select '+staticItem.name)
+          : state.photos[idx]
+            ? (offset === 0 ? 'Open this real photograph as an immersive story preview' : 'Select this photographic story position')
+            : (offset === 0 ? 'Open empty story template ' + (idx + 1) : 'Select empty story template ' + (idx + 1)));
       if (triggered && offset === 0) {
         card.classList.remove('is-swapping');
         void card.offsetWidth;
@@ -633,21 +725,29 @@ html:not(.is-ready) .viewer-story-template {
 
   function updateViewerImage() {
     const published = state.published[state.active];
+    const staticItem = staticStories[state.active];
     const url = published ? (published.photos[0] || null) : state.photos[state.active];
-    viewer.classList.toggle('published-story', Boolean(published));
+    viewer.classList.toggle('published-story', Boolean(published || staticItem));
+    viewer.classList.toggle('is-text-chapter', !published && (state.active===3 || state.active===4));
     const publishedArticle = document.getElementById('viewer-public-story');
-    publishedArticle.hidden = !published;
+    publishedArticle.hidden = !(published || staticItem);
     if (published) {
       document.getElementById('viewer-public-name').textContent = published.name;
       document.getElementById('viewer-public-text').textContent = published.story;
       document.getElementById('viewer-public-turning-point').textContent = published.turning_point || '';
+    } else if (staticItem) {
+      document.getElementById('viewer-public-name').textContent = staticItem.name;
+      document.getElementById('viewer-public-text').textContent = staticItem.story;
+      document.getElementById('viewer-public-turning-point').textContent = staticItem.turning_point || '';
     }
     viewer.classList.toggle('has-real-photo', Boolean(url));
     const viewerPhoto = document.querySelector('#viewer-photo');
     viewerPhoto.setAttribute('aria-label', published
       ? 'Approved real photograph associated with a submitted story'
-      : (url ? 'Replace the current locally selected photograph'
-      : 'Choose a real photograph for this empty story position'));
+      : staticItem && state.active===2
+        ? "Photo frame reserved for Kile's approved portrait"
+        : (url ? 'Replace the current locally selected photograph'
+        : 'Choose a real photograph for this empty story position'));
     if (!url) {
       viewerImage.hidden = true;
       viewerImage.removeAttribute('src');
@@ -1025,12 +1125,12 @@ html:not(.is-ready) .viewer-story-template {
         throw new Error('Private stories require a secure HTTPS connection. Nothing has been sent.');
       }
       // Check the real private receiver before transferring any story or images.
-      const health = null; // Public launch: intake is disabled until secure moderation hosting is connected.
+      const health = null; // Public-only site: private story intake remains disconnected.
       const ready = health?.ok ? await health.json().catch(()=>null) : null;
       if (!ready || ready.story_intake !== true || ready.moderation_configured !== true) {
         throw new Error('Private story submissions are not connected on this preview. Nothing was sent or stored.');
       }
-      const response={ok:false,json:async()=>({error:'Private submissions are not connected yet.'})};
+      const response={ok:false,json:async()=>({error:'Private submissions are not connected yet. Nothing has been sent or stored.'})};
       const data=await response.json().catch(()=>null);
       if(!response.ok || !data || data.received!==true || typeof data.id!=='string') {
         throw new Error(data?.error || 'Private submissions are not connected on this preview yet. No story or image was sent.');
@@ -1065,8 +1165,10 @@ html:not(.is-ready) .viewer-story-template {
   // Published gallery reads only server-reviewed stories with explicit publication consent.
   // When there are none, every card remains an empty placeholder as requested.
   async function loadApprovedStories() {
+    if (location.protocol === 'file:') return; // preserve static founder story sequence in local preview
+
     try {
-      const reply = {ok:false}; // Keep anonymous placeholders until the private approved-story service is live.
+      const reply = {ok:false}; // Future gallery data requires a securely configured backend.
       if (!reply.ok) return;
       const data = await reply.json();
       if (!Array.isArray(data.stories) || !data.stories.length) return;
