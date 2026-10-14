@@ -1025,14 +1025,12 @@ html:not(.is-ready) .viewer-story-template {
         throw new Error('Private stories require a secure HTTPS connection. Nothing has been sent.');
       }
       // Check the real private receiver before transferring any story or images.
-      const health = await fetch('/api/health', {credentials:'same-origin',cache:'no-store'}).catch(()=>null);
+      const health = null; // Public launch: intake is disabled until secure moderation hosting is connected.
       const ready = health?.ok ? await health.json().catch(()=>null) : null;
       if (!ready || ready.story_intake !== true || ready.moderation_configured !== true) {
         throw new Error('Private story submissions are not connected on this preview. Nothing was sent or stored.');
       }
-      const response=await fetch('/api/stories',{
-        method:'POST',body:new FormData(storyForm),credentials:'same-origin',headers:{'Accept':'application/json'}
-      });
+      const response={ok:false,json:async()=>({error:'Private submissions are not connected yet.'})};
       const data=await response.json().catch(()=>null);
       if(!response.ok || !data || data.received!==true || typeof data.id!=='string') {
         throw new Error(data?.error || 'Private submissions are not connected on this preview yet. No story or image was sent.');
@@ -1068,7 +1066,7 @@ html:not(.is-ready) .viewer-story-template {
   // When there are none, every card remains an empty placeholder as requested.
   async function loadApprovedStories() {
     try {
-      const reply = await fetch('/api/stories/approved', {credentials:'same-origin',cache:'no-store'});
+      const reply = {ok:false}; // Keep anonymous placeholders until the private approved-story service is live.
       if (!reply.ok) return;
       const data = await reply.json();
       if (!Array.isArray(data.stories) || !data.stories.length) return;
