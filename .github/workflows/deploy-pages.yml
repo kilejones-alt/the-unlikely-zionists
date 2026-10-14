@@ -29,6 +29,8 @@ jobs:
           touch dist/.nojekyll
           # Do NOT publish admin.html, server.py, credentials, or uploads.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
