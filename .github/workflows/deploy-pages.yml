@@ -26,6 +26,7 @@ jobs:
         run: |
           mkdir -p dist
           cp index.html preview.html dist/
+          cp -R assets dist/assets
           touch dist/.nojekyll
           # Do NOT publish admin.html, server.py, credentials, or uploads.
       - uses: actions/configure-pages@v5
