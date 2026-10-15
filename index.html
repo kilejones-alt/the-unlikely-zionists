@@ -430,6 +430,192 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
   }
 }
 
+
+/* CINEMATIC PASS: section typography enters from outside the LEFT edge. */
+html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,#submit-title) {
+  opacity: 1 !important;
+  animation: none !important;
+  transform: translate3d(calc((1 - var(--chapter-approach, 1)) * -145vw), 0, 0) scaleX(var(--chapter-fit, 1)) !important;
+  transform-origin: 0 60% !important;
+  transition: none !important;
+  will-change: transform;
+}
+:is(.stories,.community,.resources,.submit) {
+  --scene-depth: 0;
+}
+.stories .stage-rails {
+  transform: translate3d(calc(var(--scene-depth) * 18px),calc(var(--scene-depth) * -38px),0) rotate(-9deg);
+  transition: transform .08s linear;
+}
+.community .community-backstage {
+  transform: translate3d(0,calc(var(--scene-depth) * -40px),0);
+}
+.resources.is-seen .res-panel:hover {
+  transform: perspective(1400px) translateY(-14px) rotateX(var(--panel-rx,0deg)) rotateY(var(--panel-ry,0deg));
+  box-shadow: 18px 26px 0 rgba(158,0,60,.13);
+  z-index: 2;
+}
+.resources .res-panel {
+  will-change: transform;
+  transition: transform .35s cubic-bezier(.19,1,.22,1),box-shadow .45s,opacity .8s;
+}
+.submission-step[aria-hidden="false"] {
+  animation: editorial-form-unfold .75s cubic-bezier(.16,1,.3,1) both;
+  transform-origin: 8% 20%;
+}
+@keyframes editorial-form-unfold {
+  from { opacity: .15; transform: translate3d(-48px,15px,0) rotateY(-9deg); }
+  to { opacity: 1; transform: translate3d(0,0,0) rotateY(0); }
+}
+.story-viewer { isolation: isolate; }
+.story-viewer .viewer-photo { isolation: isolate; }
+.story-viewer .viewer-photo img { z-index: 2; }
+.story-photo-webgl {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  z-index:3;
+  pointer-events:none;
+}
+.story-viewer.photo-webgl-ready .viewer-photo img:not([hidden]) { opacity:0; }
+.story-viewer.changing-chapter .viewer-photo::after {
+  content:'';
+  position:absolute;
+  z-index:5;
+  inset:0;
+  background:linear-gradient(100deg,var(--glacier),var(--white) 48%,var(--ruby));
+  pointer-events:none;
+  animation: image-chapter-wipe .9s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes image-chapter-wipe {
+  0% { transform:translateX(-105%) skewX(-8deg); }
+  45% { transform:translateX(0) skewX(0); }
+  100% { transform:translateX(105%) skewX(8deg); }
+}
+.chapter-rail {
+  position:absolute;
+  z-index:30;
+  left:50%;
+  bottom:clamp(88px,13vh,146px);
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 18px;
+  background:rgba(255,255,255,.9);
+  border:1px solid var(--ruby);
+}
+.chapter-rail button {
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+}
+.chapter-rail button::before {
+  content:'';
+  display:block;
+  width:7px;
+  height:7px;
+  border:1px solid var(--ruby);
+  border-radius:50%;
+  transform:scale(1);
+  transition:transform .4s cubic-bezier(.16,1,.3,1), background .4s;
+}
+.chapter-rail button[aria-current="step"]::before {
+  background:var(--ruby);
+  transform:scale(1.8);
+}
+.chapter-rail button:focus-visible, .viewer-examine:focus-visible, .artifact-close:focus-visible {
+  outline:3px solid var(--ruby);
+  outline-offset:3px;
+}
+.viewer-examine {
+  position:absolute;
+  z-index:31;
+  right:clamp(20px,4vw,64px);
+  bottom:clamp(28px,4vh,72px);
+  padding:12px 17px;
+  background:var(--white);
+  border:1px solid var(--ruby);
+  font:700 11px/1.3 'DM Sans',Arial,sans-serif;
+  letter-spacing:.1em;
+  color:var(--ruby);
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .4s,transform .5s cubic-bezier(.16,1,.3,1);
+  transform:translateY(12px);
+}
+.story-viewer.is-open.has-real-photo .viewer-examine {
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.artifact-inspector {
+  position:fixed;
+  z-index:1000;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(20px,5vw,90px);
+  background:rgba(12,20,23,.94);
+  cursor:zoom-out;
+}
+.artifact-inspector[hidden] {display:none;}
+.artifact-inspector img {
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:86dvh;
+  object-fit:contain;
+  box-shadow:0 18px 85px rgba(0,0,0,.25);
+}
+.artifact-close {
+  position:absolute;
+  top:clamp(18px,4vw,52px);
+  right:clamp(18px,4vw,52px);
+  width:50px;
+  height:50px;
+  background:var(--white);
+  border:1px solid var(--ruby);
+  color:var(--ruby);
+  font-size:28px;
+  cursor:pointer;
+}
+.cinematic-ghost {
+  position:fixed;
+  z-index:200;
+  background:var(--glacier);
+  border:2px solid var(--ruby);
+  overflow:hidden;
+  pointer-events:none;
+  box-shadow:0 20px 45px rgba(158,0,60,.15);
+}
+.cinematic-ghost img {width:100%;height:100%;object-fit:cover;display:block;}
+@media(max-width:720px) {
+  .chapter-rail {bottom:90px;gap:5px;padding:8px;}
+  .chapter-rail button {width:27px;height:34px;}
+  .viewer-examine {right:15px;bottom:20px;font-size:10px;padding:9px;}
+  .resources.is-seen .res-panel:hover {box-shadow:none;transform:none;}
+  html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,#submit-title) {
+    transform:translate3d(calc((1 - var(--chapter-approach,1)) * -150vw),0,0) scaleX(var(--chapter-fit,1)) !important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,#submit-title) {transform:none!important;opacity:1!important;will-change:auto!important;}
+  .submission-step[aria-hidden="false"],.story-viewer.changing-chapter .viewer-photo::after {animation:none!important;}
+  .cinematic-ghost {display:none!important;}
+  .resources.is-seen .res-panel:hover {transform:none!important;}
+}
+
 </style>
 </head>
 <body>
@@ -1622,6 +1808,257 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
   addEventListener('pageshow', schedule, { passive: true });
   if (document.fonts) document.fonts.ready.then(schedule);
   schedule();
+})();
+</script>
+
+
+<script>
+/* CINEMATIC INTERACTIONS / GPU PHOTO: progressive enhancement only. */
+(() => {
+  'use strict';
+  const doc = document;
+  const viewer = doc.getElementById('story-viewer');
+  const photo = doc.getElementById('viewer-photo');
+  const image = doc.getElementById('viewer-image');
+  if (!viewer || !photo || !image) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const coarse = matchMedia('(pointer:coarse)');
+  const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
+  /* Scrolling pushes scene layers in independently, with no competing animation loops. */
+  const scenes = ['stories','community','resources','submit'].map(n => doc.getElementById(n)).filter(Boolean);
+  let waiting = false;
+  function motion() {
+    waiting = false;
+    if (reduced.matches) return;
+    const h = Math.max(320,innerHeight);
+    for (const scene of scenes) {
+      const box = scene.getBoundingClientRect();
+      if (box.top > h || box.bottom < 0) continue;
+      scene.style.setProperty('--scene-depth', clamp((h * .65 - box.top)/h,-1,1).toFixed(3));
+    }
+  }
+  function queue() {
+    if (waiting) return;
+    waiting = true;
+    requestAnimationFrame(motion);
+  }
+  addEventListener('scroll', queue,{passive:true});
+  addEventListener('resize', queue,{passive:true});
+  queue();
+  /* Resource panels become depth-aware surfaces; desktop pointer only. */
+  if (!coarse.matches && !reduced.matches) {
+    doc.querySelectorAll('.resources .res-panel').forEach(panel => {
+      panel.addEventListener('pointermove',e=>{
+        const r=panel.getBoundingClientRect();
+        const dx=clamp((e.clientX-r.left)/r.width-.5,-.5,.5);
+        const dy=clamp((e.clientY-r.top)/r.height-.5,-.5,.5);
+        panel.style.setProperty('--panel-rx',(-dy*9).toFixed(2)+'deg');
+        panel.style.setProperty('--panel-ry',(dx*11).toFixed(2)+'deg');
+      },{passive:true});
+      panel.addEventListener('pointerleave',()=>{
+        panel.style.setProperty('--panel-rx','0deg');
+        panel.style.setProperty('--panel-ry','0deg');
+      });
+    });
+  }
+  /* A tactile chapter rail without visible numbering; uses existing chapter UI. */
+  const rail=doc.createElement('div');
+  rail.className='chapter-rail';
+  rail.setAttribute('role','group');
+  rail.setAttribute('aria-label','Navigate the story');
+  const chapterButtons=[];
+  const names=['Introduction','Background','Photograph','Turning point','Full account'];
+  names.forEach((label,index)=>{
+    const button=doc.createElement('button');
+    button.type='button';
+    button.setAttribute('aria-label',label);
+    button.title=label;
+    button.addEventListener('click',()=>{
+      const active=doc.querySelector('.story-card.is-active');
+      if (!active)return;
+      let current=Number(active.dataset.index);
+      const next=doc.getElementById('viewer-next');
+      for(let i=0;i<(index-current+names.length)%names.length;i++)next.click();
+      syncRail();
+    });
+    rail.appendChild(button);
+    chapterButtons.push(button);
+  });
+  viewer.appendChild(rail);
+  function syncRail(){
+    const card=doc.querySelector('.story-card.is-active');
+    if (!card)return;
+    const active=Number(card.dataset.index);
+    chapterButtons.forEach((b,i)=>{
+      if(i===active)b.setAttribute('aria-current','step');
+      else b.removeAttribute('aria-current');
+    });
+  }
+  syncRail();
+  addEventListener('uz-story-rotate',syncRail);
+  addEventListener('uz-chapter-change',syncRail);
+  addEventListener('uz-viewer-open',syncRail);
+  /* Full-size photographic inspection: explicit tap/click, never upload. */
+  const examine=doc.createElement('button');
+  examine.type='button';
+  examine.className='viewer-examine';
+  examine.textContent='EXPLORE IMAGE';
+  viewer.appendChild(examine);
+  const lightbox=doc.createElement('div');
+  lightbox.className='artifact-inspector';
+  lightbox.hidden=true;
+  lightbox.setAttribute('role','dialog');
+  lightbox.setAttribute('aria-modal','true');
+  lightbox.setAttribute('aria-label','Photograph detail');
+  lightbox.innerHTML='<button type="button" class="artifact-close" aria-label="Close image">×</button><img alt="Enlarged story photograph">';
+  doc.body.appendChild(lightbox);
+  const lightboxImage=lightbox.querySelector('img');
+  const closeButton=lightbox.querySelector('button');
+  let previousFocus=null;
+  function closeLightbox(){
+    if(lightbox.hidden)return;
+    lightbox.hidden=true;
+    lightboxImage.removeAttribute('src');
+    if(previousFocus instanceof HTMLElement)previousFocus.focus({preventScroll:true});
+  }
+  function openLightbox(){
+    if(image.hidden || !image.currentSrc && !image.src)return;
+    previousFocus=doc.activeElement;
+    lightboxImage.src=image.currentSrc||image.src;
+    lightbox.hidden=false;
+    closeButton.focus({preventScroll:true});
+  }
+  examine.addEventListener('click',openLightbox);
+  image.addEventListener('dblclick',openLightbox);
+  closeButton.addEventListener('click',closeLightbox);
+  lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+  addEventListener('keydown',e=>{
+    if(!lightbox.hidden && e.key==='Escape'){
+      e.preventDefault();e.stopImmediatePropagation();closeLightbox();
+    }
+    if(!lightbox.hidden && e.key==='Tab'){
+      e.preventDefault();closeButton.focus();
+    }
+  },true);
+  /* FLIP-inspired portal from the selected photographic card to the viewer. */
+  function portal() {
+    if(reduced.matches)return;
+    const selected=doc.querySelector('.story-card.is-active');
+    if(!selected)return;
+    const source=selected.querySelector('.photo-plane')||selected;
+    const from=source.getBoundingClientRect();
+    const to=photo.getBoundingClientRect();
+    if(from.width<20||to.width<20)return;
+    const ghost=doc.createElement('div');
+    ghost.className='cinematic-ghost';
+    const img=source.querySelector('img');
+    if(img && img.currentSrc){
+      const element=doc.createElement('img');element.src=img.currentSrc;element.alt='';ghost.appendChild(element);
+    }
+    doc.body.appendChild(ghost);
+    ghost.style.left=from.left+'px';
+    ghost.style.top=from.top+'px';
+    ghost.style.width=from.width+'px';
+    ghost.style.height=from.height+'px';
+    const anim=ghost.animate([
+      {transform:'translate3d(0,0,0) rotate(-4deg)',opacity:1,filter:'brightness(1)'},
+      {transform:'translate3d('+(to.left-from.left)+'px,'+(to.top-from.top)+'px,0) scale('+(to.width/from.width)+','+(to.height/from.height)+') rotate(0deg)',transformOrigin:'top left',opacity:.08,filter:'brightness(1.15)'}
+    ],{duration:900,easing:'cubic-bezier(.17,.8,.18,1)',fill:'forwards'});
+    anim.onfinish=()=>ghost.remove();
+    anim.oncancel=()=>ghost.remove();
+    setTimeout(()=>ghost.remove(),1600);
+  }
+  addEventListener('uz-viewer-open',()=>requestAnimationFrame(portal));
+  /* WebGL2 renders the *real* photograph as a texture, preserving its content.
+     If GPU upload is blocked, the native HTML image remains visible. */
+  if(reduced.matches)return;
+  const canvas=doc.createElement('canvas');
+  canvas.className='story-photo-webgl';
+  canvas.hidden=true;
+  photo.appendChild(canvas);
+  let gl=null,program=null,tex=null,buffer=null,uni={},ready=false;
+  let imageRatio=1,px=0,py=0,lastAppear=0,hasFrame=false,stop=false;
+  const vs='#version 300 es\nprecision highp float;\nlayout(location=0) in vec2 a_pos;\nout vec2 uv;\nvoid main(){uv=(a_pos+1.0)*0.5;gl_Position=vec4(a_pos,0.0,1.0);}';
+  const fs='#version 300 es\nprecision highp float;\nin vec2 uv;\nout vec4 col;\nuniform sampler2D imageTex;\nuniform vec2 pointer;\nuniform float appear;\nuniform float imageAspect;\nuniform float canvasAspect;\nvoid main(){vec2 p=uv; if(canvasAspect>imageAspect){p.y=(p.y-.5)*imageAspect/canvasAspect+.5;}else{p.x=(p.x-.5)*canvasAspect/imageAspect+.5;}p+=(pointer-.5)*.008;float wave=sin(p.y*23.0-appear*15.0)*.008*(1.0-appear);p.x+=wave;col=texture(imageTex,clamp(p,vec2(0.001),vec2(.999)));}';
+  function shader(type,source){
+    const s=gl.createShader(type);
+    gl.shaderSource(s,source);
+    gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error('Photo shader failed');
+    return s;
+  }
+  function init(){
+    try{
+      gl=canvas.getContext('webgl2',{alpha:false,antialias:false,powerPreference:'low-power'});
+      if(!gl)return false;
+      program=gl.createProgram();
+      gl.attachShader(program,shader(gl.VERTEX_SHADER,vs));
+      gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fs));
+      gl.linkProgram(program);
+      if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('Photo GPU link failed');
+      gl.useProgram(program);
+      buffer=gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+      gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+      gl.enableVertexAttribArray(0);
+      gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+      tex=gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D,tex);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+      ['pointer','appear','imageAspect','canvasAspect','imageTex'].forEach(key=>uni[key]=gl.getUniformLocation(program,key));
+      gl.uniform1i(uni.imageTex,0);
+      return true;
+    }catch{gl=null;return false;}
+  }
+  if(!init()){canvas.remove();return;}
+  function upload(){
+    if(!gl||image.hidden||!image.naturalWidth){ready=false;canvas.hidden=true;viewer.classList.remove('photo-webgl-ready');return;}
+    try{
+      imageRatio=image.naturalWidth/image.naturalHeight;
+      gl.bindTexture(gl.TEXTURE_2D,tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,image);
+      ready=true;canvas.hidden=false;
+      viewer.classList.add('photo-webgl-ready');
+      lastAppear=performance.now();
+    }catch{ready=false;canvas.hidden=true;viewer.classList.remove('photo-webgl-ready');}
+  }
+  image.addEventListener('load',upload);
+  new MutationObserver(()=>{if(image.hidden || !image.getAttribute('src')){ready=false;canvas.hidden=true;viewer.classList.remove('photo-webgl-ready');}}).observe(image,{attributes:true,attributeFilter:['src','hidden']});
+  if(image.complete && image.naturalWidth)upload();
+  photo.addEventListener('pointermove',e=>{
+    if(coarse.matches)return;
+    const r=photo.getBoundingClientRect();
+    px=clamp((e.clientX-r.left)/r.width-.5,-.5,.5);
+    py=clamp((e.clientY-r.top)/r.height-.5,-.5,.5);
+  },{passive:true});
+  photo.addEventListener('pointerleave',()=>{px=0;py=0;});
+  addEventListener('uz-chapter-change',()=>{lastAppear=performance.now();});
+  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();ready=false;viewer.classList.remove('photo-webgl-ready');},{passive:false});
+  addEventListener('pagehide',()=>{stop=true;});
+  function draw(now){
+    if(stop)return;
+    requestAnimationFrame(draw);
+    if(!ready || !viewer.classList.contains('is-open') || doc.hidden)return;
+    if(now-lastAppear>1000 && coarse.matches && hasFrame)return;
+    const width=clamp(Math.round(photo.clientWidth*Math.min(devicePixelRatio||1,1.7)),1,1400);
+    const height=clamp(Math.round(photo.clientHeight*Math.min(devicePixelRatio||1,1.7)),1,1400);
+    if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}
+    gl.viewport(0,0,width,height);
+    gl.useProgram(program);
+    gl.uniform2f(uni.pointer,.5+px,.5+py);
+    gl.uniform1f(uni.appear,clamp((now-lastAppear)/820,0,1));
+    gl.uniform1f(uni.imageAspect,imageRatio);
+    gl.uniform1f(uni.canvasAspect,width/height);
+    gl.drawArrays(gl.TRIANGLES,0,6);
+    hasFrame=true;
+  }
+  addEventListener('uz-chapter-change',()=>{hasFrame=false;});
+  requestAnimationFrame(draw);
 })();
 </script>
 
