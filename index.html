@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Fraunces:opsz,wght,SOFT,WONK@9..144,500,30,1;9..144,600,30,1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-:root{--glacier:#a7f3ef;--ruby:#9e003c;--white:#fff;--header-h:104px;--ease:cubic-bezier(.16,1,.3,1)}
+:root{--glacier:#a7f3ef;--ruby:#9e003c;--ink:#251018;--white:#fff;--header-h:104px;--ease:cubic-bezier(.16,1,.3,1)}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:0}body{margin:0;min-width:320px;background:var(--glacier);color:var(--ruby);font-family:'DM Sans',Arial,sans-serif;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}a{color:inherit}svg{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}img{display:block;max-width:100%}.sr-only{position:absolute!important;height:1px;width:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}:focus-visible{outline:2px solid currentColor;outline-offset:5px}
 #app{min-height:100svh}.scene{position:relative;isolation:isolate;overflow:hidden}.page-curtain{position:fixed;inset:0;z-index:200;display:flex;pointer-events:none}.page-curtain div{width:50%;height:100%;background:var(--ruby);transform:translateY(0)}.page-curtain div:nth-child(2){background:var(--white)}.is-ready .page-curtain div:first-child{animation:door-part-left 1.35s var(--ease) .15s both}.is-ready .page-curtain div:last-child{animation:door-part-right 1.35s var(--ease) .15s both}@keyframes door-part-left{to{transform:translateX(-105%)}}@keyframes door-part-right{to{transform:translateX(105%)}}
 .site-header{position:fixed;z-index:100;inset:0 0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding:clamp(20px,3.1vw,45px) clamp(24px,4.5vw,78px);pointer-events:none;transition:color .5s}.site-header>*{pointer-events:auto}.brand{color:var(--ruby);font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-size:clamp(26px,3.15vw,51px);line-height:.81;font-weight:700;letter-spacing:-.018em;text-decoration:none;text-transform:uppercase;display:flex;flex-direction:column;transform:translateY(-130%);opacity:0}.is-ready .brand{animation:wordmark-enter 1.4s var(--ease) .75s forwards}@keyframes wordmark-enter{to{transform:translateY(0);opacity:1}}.brand span{display:block;width:fit-content;transition:letter-spacing .65s var(--ease),transform .6s var(--ease)}.brand:hover span:nth-child(2){transform:translateX(5px);letter-spacing:.01em}.brand:hover span:nth-child(3){transform:translateX(-3px)}.menu-button{border:0;background:transparent;color:var(--ruby);font-size:12px;letter-spacing:.12em;font-weight:700;display:flex;align-items:center;gap:18px;padding:7px 0;transition:transform .45s var(--ease)}.menu-button:hover{transform:translateY(-3px)}.menu-bars{width:38px;height:13px;display:flex;flex-direction:column;justify-content:space-between}.menu-bars i{display:block;height:1px;width:100%;background:currentColor;transition:transform .6s var(--ease)}.menu-button[aria-expanded='true'] .menu-bars i:first-child{transform:translateY(6px) rotate(45deg)}.menu-button[aria-expanded='true'] .menu-bars i:last-child{transform:translateY(-6px) rotate(-45deg)}.header-invert .brand,.header-invert .menu-button{color:var(--white)}
@@ -357,6 +357,44 @@ html:not(.is-ready) .viewer-story-template {
 .story-viewer.is-text-chapter .viewer-public-story #viewer-public-text{font-size:15px;line-height:1.65}
 }
 
+/* Interaction polish: every section title and complete card responds as one object. */
+p{color:var(--ink)}
+.story-head h1,.community-title-container h2,.resources-head h2{
+  transition:translate .55s var(--ease),letter-spacing .55s var(--ease),filter .55s var(--ease);
+}
+.menu-items a{translate:0 0;will-change:translate}
+.story-card{translate:var(--drag-x,0px) 0;will-change:transform,translate}
+.res-panel{translate:0 0;scale:1;will-change:transform,translate,scale;box-shadow:0 0 0 rgba(37,16,24,0)}
+.res-panel::before{
+  content:'';position:absolute;z-index:4;left:12px;top:12px;width:34px;height:34px;
+  border-left:3px solid var(--ruby);border-top:3px solid var(--ruby);opacity:.38;
+  translate:-5px -5px;transition:translate .55s var(--ease),opacity .4s var(--ease),width .55s var(--ease),height .55s var(--ease);
+}
+.res-panel:nth-child(2)::before{border-color:var(--white)}
+.story-card.photo-slot.has-photo .photo-surface::after{display:none}
+.story-card.photo-slot.has-photo .photo-plane{inset:0;border:0;align-items:stretch}
+.story-card.photo-slot.has-photo .story-card-copy{background:linear-gradient(180deg,transparent,rgba(255,255,255,.95));border:0;padding:54px 14px 12px}
+.story-card.photo-slot.has-photo .photo-plane>img{width:100%;height:100%;object-fit:cover;object-position:center 38%}
+.submission-step[data-step='0'] fieldset{margin-top:4px}
+.submission-step[data-step='0'] .option-row{margin-top:7px}
+.story-deck.is-dragging .story-card{transition-duration:.12s}
+
+@media(hover:hover) and (pointer:fine){
+  .menu-overlay.is-open .menu-items a:hover{translate:0 -12px}
+  .story-head h1:hover,.community-title-container h2:hover,.resources-head h2:hover{translate:0 -15px;letter-spacing:-.045em;filter:drop-shadow(0 11px 0 rgba(158,0,60,.12))}
+  .community-title-container h2:hover{filter:drop-shadow(0 11px 0 rgba(167,243,239,.22))}
+  .story-card:hover{translate:var(--drag-x,0px) -30px}
+  .story-card.is-active:hover{translate:var(--drag-x,0px) -38px}
+  .resources.is-seen .res-panel:hover{translate:0 -30px;scale:1.025;box-shadow:0 30px 45px rgba(37,16,24,.18);z-index:7}
+  .resources.is-seen .res-panel:hover::before{translate:0 0;opacity:1;width:48px;height:48px}
+}
+@media(max-width:600px){
+  .res-panel::before{left:8px;top:8px;width:22px;height:22px;border-width:2px}
+}
+@media(prefers-reduced-motion:reduce){
+  .menu-items a,.story-card,.res-panel,.story-head h1,.community-title-container h2,.resources-head h2{translate:0 0!important;scale:1!important}
+}
+
 </style>
 </head>
 <body>
@@ -422,7 +460,7 @@ html:not(.is-ready) .viewer-story-template {
           <div class="story-deck" id="story-deck" role="group" aria-label="Photographic story positions">
             <button type="button" class="story-card copy-card" data-index="0" aria-label="Open Kile story introduction" style="--offset:0"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile is an unlikely Zionist.</strong><em>Story 01</em></span></span></span></span></button>
             <button type="button" class="story-card copy-card" data-index="1" aria-label="Open Kile story details" style="--offset:1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile is non-Jewish.</strong><p>He’s an atheist. He’s a liberal. He’s never been to Israel.</p></span></span></span></span></button>
-            <button type="button" class="story-card photo-slot" data-index="2" aria-label="Open Kile photo frame" style="--offset:2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Here’s the story.</strong><p>Photo frame ready for Kile’s approved image.</p></span></span></span></span></button>
+            <button type="button" class="story-card photo-slot has-photo" data-index="2" aria-label="Open Kile’s photograph" style="--offset:2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><img src="assets/kile-family-portrait.jpg" alt="" decoding="async"><span class="story-card-copy"><strong>Here’s the story.</strong></span></span></span></span></button>
             <button type="button" class="story-card copy-card" data-index="3" aria-label="Open Kile story text" style="--offset:-2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile's story</strong><p>After October 7th, I began questioning my views of Israel.</p></span></span></span></span></button>
             <button type="button" class="story-card copy-card" data-index="4" aria-label="Read Kile’s full story" style="--offset:-1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Read the full story.</strong><p>Continue to Kile’s complete account.</p></span></span></span></span></button>
           </div>
@@ -472,12 +510,11 @@ html:not(.is-ready) .viewer-story-template {
             </div>
           </div>
           <form class="submission-form reveal" id="story-submission-form" method="post" enctype="multipart/form-data" novalidate>
-            <div class="form-progress-head"><span>SHARE YOUR STORY</span><span id="story-progress-label" aria-live="polite">01 / 04</span></div>
+            <div class="form-progress-head"><span>SHARE YOUR STORY</span></div>
             <div class="form-progress-track" aria-hidden="true"><span id="story-progress-line"></span></div>
             <div class="submission-steps">
               <section class="submission-step" data-step="0" aria-hidden="false" aria-labelledby="story-step-1">
                 <h3 id="story-step-1">Choose what kind of Zionist you want to be.</h3>
-                <p class="step-desc">Choose how you would like to be known if you later give us permission for your story to be published. Your contact details will never be displayed publicly.</p>
                 <fieldset>
                   <legend>Choose one</legend>
                   <div class="option-row">
@@ -492,13 +529,12 @@ html:not(.is-ready) .viewer-story-template {
               </section>
               <section class="submission-step" data-step="1" aria-hidden="true" aria-labelledby="story-step-2">
                 <h3 id="story-step-2">Tell us what changed.</h3>
-                <p class="step-desc">There is no right answer or required point of view. Your story is yours to tell.</p>
                 <fieldset>
                   <legend>Have your views about Israel or Zionism changed?</legend>
                   <div class="option-row">
                     <label class="choice-card"><input type="radio" name="change_status" value="yes" checked> Yes</label>
                     <label class="choice-card"><input type="radio" name="change_status" value="still_exploring"> I'm still exploring</label>
-                    <label class="choice-card"><input type="radio" name="change_status" value="another_experience"> I have another experience to share</label>
+                    <label class="choice-card"><input type="radio" name="change_status" value="another_experience"> I have a similar experience to share</label>
                   </div>
                 </fieldset>
                 <div class="form-field"><label for="story-narrative">What happened? What changed, or what are you questioning? *</label><textarea name="story" id="story-narrative" minlength="20" maxlength="18000" rows="9" required placeholder="Tell your story in your own words..."></textarea></div>
@@ -604,8 +640,8 @@ html:not(.is-ready) .viewer-story-template {
     },
     {
         "name": "Kile",
-        "story": "A portrait of Kile will appear here when he provides the photograph.",
-        "turning_point": "Here's the story."
+        "story": "Here's the story.",
+        "turning_point": ""
     },
     {
         "name": "Kile's story",
@@ -634,6 +670,7 @@ html:not(.is-ready) .viewer-story-template {
   const progressLine = document.querySelector('#deck-progress-line');
   const progress = document.querySelector('.reading-progress');
   const orderedScenes = [...document.querySelectorAll('[data-section]')];
+  const staticPhotoUrls = [null,null,'assets/kile-family-portrait.jpg',null,null];
 
   function setMenu(open) {
     state.menuOpen = open;
@@ -672,7 +709,7 @@ html:not(.is-ready) .viewer-story-template {
         ? (offset === 0 ? 'Open approved story from '+state.published[idx].name : 'Select approved story from '+state.published[idx].name)
         : staticItem
           ? (offset === 0 ? 'Open '+staticItem.name : 'Select '+staticItem.name)
-          : state.photos[idx]
+          : (state.photos[idx] || staticPhotoUrls[idx])
             ? (offset === 0 ? 'Open this real photograph as an immersive story preview' : 'Select this photographic story position')
             : (offset === 0 ? 'Open empty story template ' + (idx + 1) : 'Select empty story template ' + (idx + 1)));
       if (triggered && offset === 0) {
@@ -699,11 +736,12 @@ html:not(.is-ready) .viewer-story-template {
     const card = cards[index];
     const plane = card.querySelector('.photo-plane');
     plane.querySelector('img')?.remove();
-    if (state.photos[index]) {
+    const photoUrl = state.photos[index] || staticPhotoUrls[index];
+    if (photoUrl) {
       const art = plane.querySelector('.photo-placeholder-art');
       if (art) art.hidden = true;
       const img = document.createElement('img');
-      img.src = state.photos[index];
+      img.src = photoUrl;
       img.alt = '';
       img.decoding = 'async';
       plane.appendChild(img);
@@ -726,7 +764,7 @@ html:not(.is-ready) .viewer-story-template {
   function updateViewerImage() {
     const published = state.published[state.active];
     const staticItem = staticStories[state.active];
-    const url = published ? (published.photos[0] || null) : state.photos[state.active];
+    const url = published ? (published.photos[0] || null) : (state.photos[state.active] || staticPhotoUrls[state.active]);
     viewer.classList.toggle('published-story', Boolean(published || staticItem));
     viewer.classList.toggle('is-text-chapter', !published && (state.active===3 || state.active===4));
     const publishedArticle = document.getElementById('viewer-public-story');
@@ -745,7 +783,7 @@ html:not(.is-ready) .viewer-story-template {
     viewerPhoto.setAttribute('aria-label', published
       ? 'Approved real photograph associated with a submitted story'
       : staticItem && state.active===2
-        ? "Photo frame reserved for Kile's approved portrait"
+        ? "Kile's approved photograph"
         : (url ? 'Replace the current locally selected photograph'
         : 'Choose a real photograph for this empty story position'));
     if (!url) {
@@ -793,7 +831,7 @@ html:not(.is-ready) .viewer-story-template {
   document.querySelector('#viewer-next').addEventListener('click', () => moveViewer(1));
   viewerClose.addEventListener('click', closeViewer);
   document.querySelector('#viewer-photo').addEventListener('click', () => {
-    if (!state.published[state.active]) showPicker(state.active);
+    if (!state.published[state.active] && !staticPhotoUrls[state.active]) showPicker(state.active);
   });
   viewer.addEventListener('click', event => { if (event.target === viewer) closeViewer(); });
 
@@ -802,19 +840,40 @@ html:not(.is-ready) .viewer-story-template {
   const deck = document.querySelector('#story-deck');
   deck.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
-    drag = { x:event.clientX, y:event.clientY, moved:false };
+    drag = { id:event.pointerId, x:event.clientX, y:event.clientY, started:performance.now(), horizontal:false };
+    deck.setPointerCapture?.(event.pointerId);
+  });
+  deck.addEventListener('pointermove', event => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
+    if (!drag.horizontal && Math.abs(dx) > 9 && Math.abs(dx) > Math.abs(dy) * 1.15) drag.horizontal = true;
+    if (!drag.horizontal) return;
+    deck.classList.add('is-dragging');
+    const visualShift = Math.max(-42,Math.min(42,dx * .2));
+    cards.forEach(card => card.style.setProperty('--drag-x',`${visualShift}px`));
   });
   deck.addEventListener('pointerup', event => {
-    if (!drag) return;
+    if (!drag || event.pointerId !== drag.id) return;
     const delta = event.clientX - drag.x;
-    if (Math.abs(delta) > 48 && Math.abs(delta) > Math.abs(event.clientY - drag.y)) {
+    const elapsed = Math.max(1,performance.now() - drag.started);
+    const velocity = Math.abs(delta) / elapsed;
+    if (drag.horizontal && (Math.abs(delta) > 42 || velocity > .45)) {
       rotate(delta > 0 ? -1 : 1);
       deck.dataset.dragged = 'true';
-      setTimeout(() => { delete deck.dataset.dragged; }, 80);
+      setTimeout(() => { delete deck.dataset.dragged; }, 140);
     }
+    deck.releasePointerCapture?.(event.pointerId);
+    deck.classList.remove('is-dragging');
+    cards.forEach(card => card.style.removeProperty('--drag-x'));
     drag = null;
   });
-  deck.addEventListener('pointercancel', () => { drag = null; });
+  deck.addEventListener('pointercancel', event => {
+    if (drag && event.pointerId === drag.id) deck.releasePointerCapture?.(event.pointerId);
+    deck.classList.remove('is-dragging');
+    cards.forEach(card => card.style.removeProperty('--drag-x'));
+    drag = null;
+  });
 
   deck.addEventListener('click', event => {
     const card = event.target.closest('.story-card');
@@ -992,7 +1051,6 @@ html:not(.is-ready) .viewer-story-template {
   }, { threshold: 0, rootMargin: '-90px 0px -90px 0px' });
   formFocusObserver.observe(storyForm);
   const storySteps = [...storyForm.querySelectorAll('.submission-step')];
-  const stepIndicator = document.getElementById('story-progress-label');
   const stepLine = document.getElementById('story-progress-line');
   const prevStep = document.getElementById('story-back');
   const nextStep = document.getElementById('story-next');
@@ -1027,7 +1085,6 @@ html:not(.is-ready) .viewer-story-template {
       step.setAttribute('aria-hidden',String(!visible));
       step.inert = !visible;
     });
-    stepIndicator.textContent = String(storyStep+1).padStart(2,'0') + ' / 04';
     stepLine.style.width = ((storyStep+1)*25) + '%';
     prevStep.hidden = storyStep === 0;
     nextStep.hidden = storyStep === 3;
