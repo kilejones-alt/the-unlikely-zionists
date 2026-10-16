@@ -1,0 +1,50 @@
+name: Import owner-supplied original NYT screenshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/import-original-nyt.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve and verify exact original image
+        shell: bash
+        run: |
+          python - <<'PY'
+          from urllib.request import Request, urlopen
+          from pathlib import Path
+          import sys
+          urls=[
+            'https://pbs.twimg.com/media/F8uT3llW4AAxR3Y.jpg',
+            'https://pbs.twimg.com/media/F8uT3llW4AAxR3Y?format=jpg&name=orig',
+            'https://pbs.twimg.com/media/F8uT3llW4AAxR3Y?format=jpg&name=large',
+          ]
+          for url in urls:
+            try:
+              with urlopen(Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=20) as res:
+                data=res.read(2000000)
+              print(url,'bytes:',len(data))
+              if len(data)!=143835 or not data.startswith(bytes.fromhex('ffd8')) or not data.endswith(bytes.fromhex('ffd9')):
+                continue
+              Path('assets').mkdir(exist_ok=True)
+              Path('assets/nyt-october-2023-original.jpg').write_bytes(data)
+              break
+            except Exception as ex:
+              print(type(ex).__name__,str(ex)[:200])
+          else:
+            sys.exit('Exact original media not verifiable; no image has been added.')
+          PY
+      - name: Commit unchanged source
+        run: |
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git add assets/nyt-october-2023-original.jpg
+          git diff --cached --quiet || (git commit -m 'Add unchanged original newspaper screenshot' && git push)
