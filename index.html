@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Fraunces:opsz,wght,SOFT,WONK@9..144,500,30,1;9..144,600,30,1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-:root{--glacier:#a7f3ef;--ruby:#9e003c;--ink:#251018;--white:#fff;--header-h:104px;--ease:cubic-bezier(.16,1,.3,1)}
+:root{--glacier:#a7f3ef;--ruby:#9e003c;--ink:#171d21;--white:#fff;--header-h:104px;--ease:cubic-bezier(.16,1,.3,1)}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:0}body{margin:0;min-width:320px;background:var(--glacier);color:var(--ruby);font-family:'DM Sans',Arial,sans-serif;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}a{color:inherit}svg{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}img{display:block;max-width:100%}.sr-only{position:absolute!important;height:1px;width:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}:focus-visible{outline:2px solid currentColor;outline-offset:5px}
 #app{min-height:100svh}.scene{position:relative;isolation:isolate;overflow:hidden}.page-curtain{position:fixed;inset:0;z-index:200;display:flex;pointer-events:none}.page-curtain div{width:50%;height:100%;background:var(--ruby);transform:translateY(0)}.page-curtain div:nth-child(2){background:var(--white)}.is-ready .page-curtain div:first-child{animation:door-part-left 1.35s var(--ease) .15s both}.is-ready .page-curtain div:last-child{animation:door-part-right 1.35s var(--ease) .15s both}@keyframes door-part-left{to{transform:translateX(-105%)}}@keyframes door-part-right{to{transform:translateX(105%)}}
 .site-header{position:fixed;z-index:100;inset:0 0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding:clamp(20px,3.1vw,45px) clamp(24px,4.5vw,78px);pointer-events:none;transition:color .5s}.site-header>*{pointer-events:auto}.brand{color:var(--ruby);font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-size:clamp(26px,3.15vw,51px);line-height:.81;font-weight:700;letter-spacing:-.018em;text-decoration:none;text-transform:uppercase;display:flex;flex-direction:column;transform:translateY(-130%);opacity:0}.is-ready .brand{animation:wordmark-enter 1.4s var(--ease) .75s forwards}@keyframes wordmark-enter{to{transform:translateY(0);opacity:1}}.brand span{display:block;width:fit-content;transition:letter-spacing .65s var(--ease),transform .6s var(--ease)}.brand:hover span:nth-child(2){transform:translateX(5px);letter-spacing:.01em}.brand:hover span:nth-child(3){transform:translateX(-3px)}.menu-button{border:0;background:transparent;color:var(--ruby);font-size:12px;letter-spacing:.12em;font-weight:700;display:flex;align-items:center;gap:18px;padding:7px 0;transition:transform .45s var(--ease)}.menu-button:hover{transform:translateY(-3px)}.menu-bars{width:38px;height:13px;display:flex;flex-direction:column;justify-content:space-between}.menu-bars i{display:block;height:1px;width:100%;background:currentColor;transition:transform .6s var(--ease)}.menu-button[aria-expanded='true'] .menu-bars i:first-child{transform:translateY(6px) rotate(45deg)}.menu-button[aria-expanded='true'] .menu-bars i:last-child{transform:translateY(-6px) rotate(-45deg)}.header-invert .brand,.header-invert .menu-button{color:var(--white)}
@@ -464,8 +464,8 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
   transform-origin: 8% 20%;
 }
 @keyframes editorial-form-unfold {
-  from { opacity: .15; transform: translate3d(-48px,15px,0) rotateY(-9deg); }
-  to { opacity: 1; transform: translate3d(0,0,0) rotateY(0); }
+  from { opacity: 0; transform: translate3d(-75px,0,0); }
+  to { opacity: 1; transform: translate3d(0,0,0); }
 }
 .story-viewer { isolation: isolate; }
 .story-viewer .viewer-photo { isolation: isolate; }
@@ -681,6 +681,70 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
 .archive-original-status{display:block;margin-top:9px;font:600 11px/1.5 'DM Sans',Arial,sans-serif;color:#161616;max-width:29ch}
 .archive-original-status[hidden]{display:none}
 
+
+/* October visual refinements: crisp text, photographic depth, slower entrances.
+   Original story wording and private intake are deliberately unchanged. */
+:root{--ice-veil:#eaf5f8;--ice-border:#a8dbe5}
+.viewer-public-story,
+.story-viewer.is-text-chapter .viewer-public-story{
+ color:#171d21;
+ background:rgba(255,255,255,.97);
+ border-color:var(--ruby);
+ box-shadow:16px 20px 0 rgba(115,183,198,.20),0 20px 42px rgba(18,40,54,.12);
+ transition:opacity .8s var(--ease),transform 1s var(--ease),box-shadow .55s var(--ease),translate .55s var(--ease)
+}
+.viewer-public-story h3{color:var(--ruby)}
+.viewer-public-story #viewer-public-text,
+.viewer-public-story #viewer-public-turning-point,
+.archive-step-copy,.step-desc{color:#171d21}
+.story-viewer .viewer-story-template,.archive-layer,.archive-layer-back,.archive-layer-mid{
+ border-color:var(--ice-border);
+ background-color:rgba(195,233,242,.16)
+}
+.story-viewer .viewer-photo-shape{border-color:var(--ice-border)}
+.menu-overlay .menu-items a{
+ transform:translate3d(-48vw,0,0);
+ transition:transform 1.65s cubic-bezier(.19,1,.22,1),opacity 1.25s ease,color .3s,padding .4s
+}
+.menu-overlay.is-open .menu-items a{transform:translate3d(0,0,0)}
+.menu-overlay.is-open .menu-items a:nth-child(1){transition-delay:.15s}
+.menu-overlay.is-open .menu-items a:nth-child(2){transition-delay:.39s}
+.menu-overlay.is-open .menu-items a:nth-child(3){transition-delay:.63s}
+.menu-overlay.is-open .menu-items a:nth-child(4){transition-delay:.87s}
+html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,#submit-title){
+ transition:transform .43s ease-out!important
+}
+.submission-steps,.submission-form,.submission-step{backface-visibility:visible}
+.submission-step[aria-hidden="false"]{animation-duration:1.1s}
+@media(hover:hover) and (pointer:fine){
+ .story-viewer.is-open .viewer-public-story:not([hidden]):hover{
+   translate:0 -9px;
+   box-shadow:20px 27px 0 rgba(115,183,198,.28),0 35px 65px rgba(18,40,54,.16)
+ }
+ .viewer-public-story #viewer-public-text{transition:translate .5s var(--ease)}
+ .viewer-public-story #viewer-public-text:hover{translate:0 -3px}
+}
+@media(max-width:700px){
+ .menu-overlay .menu-items a{transform:translate3d(-85vw,0,0);transition-duration:1.15s}
+ .viewer-public-story{box-shadow:7px 10px 0 rgba(115,183,198,.18)}
+ .story-viewer.is-text-chapter .viewer-public-story{
+   max-height:min(66dvh,610px);
+   padding:clamp(18px,4vw,25px);
+   overflow:auto;
+   translate:0 0
+ }
+ .story-viewer.is-text-chapter .viewer-public-story #viewer-public-text{
+   font-size:clamp(15px,3.7vw,18px);
+   line-height:1.65
+ }
+ .submission-step[aria-hidden="false"]{animation-duration:.72s}
+}
+@media(prefers-reduced-motion:reduce){
+ .menu-overlay .menu-items a{transition:none!important;transform:none!important;opacity:1!important}
+ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,#submit-title){transition:none!important}
+ .story-viewer .viewer-public-story{translate:0 0!important;transition:none!important}
+ .submission-step[aria-hidden="false"]{animation:none!important}
+}
 </style>
 </head>
 <body>
@@ -898,7 +962,7 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
               </section>
               <section class="submission-step" data-step="3" aria-hidden="true" aria-labelledby="story-step-4">
                 <h3 id="story-step-4">Add photos, if you like.</h3>
-                <p class="step-desc">Photographs are optional. You can send your story without any images. Images stay private while your submission is awaiting review.</p>
+                <p class="step-desc">You can submit without photographs. Before any story is published, we will ask for a genuine portrait and separate permission to use it. Uploaded images remain private during review.</p>
                 <label class="file-drop" id="story-file-drop">
                   <strong>Choose photographs</strong><span>Up to five JPG, PNG, or WebP images · 6 MB each</span>
                   <input type="file" name="photos" id="story-photos" accept="image/jpeg,image/png,image/webp" multiple>
