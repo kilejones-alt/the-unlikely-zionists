@@ -745,6 +745,49 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
  .story-viewer .viewer-public-story{translate:0 0!important;transition:none!important}
  .submission-step[aria-hidden="false"]{animation:none!important}
 }
+
+/* The authentic, already archived newspaper image accompanies the turning-point
+   chapter. It is a historical artifact, not a verified causal account. */
+.story-viewer .viewer-nyt-artifact{
+ position:absolute;z-index:15;
+ width:clamp(175px,23vw,315px);
+ left:clamp(16px,4.5vw,78px);bottom:clamp(105px,12vh,160px);
+ background:rgba(237,250,252,.95);
+ padding:7px; border:1px solid var(--ice-border);
+ box-shadow:14px 20px 0 rgba(115,183,198,.26);
+ color:var(--ruby);
+ text-align:left;
+ opacity:0;visibility:hidden;pointer-events:none;
+ transform:translate3d(-70px,25px,0) rotate(-5deg);
+ transition:opacity .85s var(--ease),transform 1.2s var(--ease),visibility .85s,box-shadow .5s var(--ease);
+}
+.story-viewer .viewer-nyt-artifact img{
+ width:100%;height:clamp(105px,13vw,184px);
+ object-fit:cover;object-position:top;
+}
+.story-viewer .viewer-nyt-artifact span{
+ display:block;padding:11px 5px 4px;
+ font:700 10px/1.5 'DM Sans',Arial,sans-serif;letter-spacing:.14em
+}
+.story-viewer.is-open.is-text-chapter .viewer-nyt-artifact{
+ opacity:1;visibility:visible;pointer-events:auto;
+ transform:translate3d(0,0,0) rotate(-4deg);
+ transition-delay:.6s
+}
+@media(hover:hover) and (pointer:fine){
+ .story-viewer.is-open.is-text-chapter .viewer-nyt-artifact:hover{
+   transform:translate3d(0,-10px,0) rotate(0deg);
+   box-shadow:18px 27px 0 rgba(115,183,198,.28)
+ }
+}
+@media(max-width:700px){
+ .story-viewer .viewer-nyt-artifact{width:clamp(88px,23vw,130px);left:12px;bottom:85px;padding:3px;box-shadow:5px 8px 0 rgba(115,183,198,.2)}
+ .story-viewer .viewer-nyt-artifact img{height:67px}
+ .story-viewer .viewer-nyt-artifact span{font-size:7px;line-height:1.25;padding:4px}
+}
+@media(prefers-reduced-motion:reduce){
+ .story-viewer .viewer-nyt-artifact{transition:none!important;transform:none!important}
+}
 </style>
 </head>
 <body>
@@ -997,7 +1040,8 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
       <div class="viewer-door viewer-door-right" aria-hidden="true"></div>
       <header class="viewer-header"><span>STORIES</span><button type="button" id="viewer-close" class="viewer-close" aria-label="Close story view"><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M2 2l26 26M28 2L2 28"/></svg></button></header>
       <button class="viewer-photo" type="button" id="viewer-photo" aria-label="Add a real photograph to this empty story template"><div class="viewer-photo-shape"></div><span class="viewer-photo-mark" aria-hidden="true">+</span><img alt="" id="viewer-image" hidden></button>
-      <article id="viewer-public-story" class="viewer-public-story" hidden aria-live="polite"><h3 id="viewer-public-name"></h3><div id="viewer-public-text"></div><div id="viewer-public-turning-point"></div></article>
+      <button class="viewer-nyt-artifact" type="button" id="viewer-nyt-artifact" aria-label="Examine original October 2023 New York Times headline"><img src="assets/nyt-october-2023-original.jpg" alt="Original October 2023 New York Times front-page screenshot" loading="lazy" decoding="async"><span>2023 / HISTORICAL HEADLINE ↗</span></button>
+       <article id="viewer-public-story" class="viewer-public-story" hidden aria-live="polite"><h3 id="viewer-public-name"></h3><div id="viewer-public-text"></div><div id="viewer-public-turning-point"></div></article>
       <div class="viewer-story-template" aria-hidden="true"><div class="viewer-template-rule"></div><div class="viewer-template-heading"></div><div class="viewer-template-line"></div><div class="viewer-template-line"></div><div class="viewer-template-line"></div><div class="viewer-template-line"></div><div class="viewer-template-line"></div><div class="viewer-template-foot"></div></div>
       <div class="viewer-controls"><button type="button" id="viewer-prev" aria-label="Previous story"><svg viewBox="0 0 34 30" aria-hidden="true"><path d="M32 15H2m12-12L2 15l12 12"/></svg></button><button type="button" id="viewer-next" aria-label="Next story"><svg viewBox="0 0 34 30" aria-hidden="true"><path d="M2 15h30M20 3l12 12-12 12"/></svg></button></div>
     </div>
@@ -2100,6 +2144,16 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
     lightbox.hidden=false;
     closeButton.focus({preventScroll:true});
   }
+  const nytArtifact=doc.getElementById('viewer-nyt-artifact');
+  if(nytArtifact)nytArtifact.addEventListener('click',()=>{
+    const source=nytArtifact.querySelector('img');
+    if(!source || !source.src)return;
+    previousFocus=doc.activeElement;
+    lightboxImage.src=source.src;
+    lightboxImage.alt='Original October 2023 New York Times headline, displayed as a historical artifact';
+    lightbox.hidden=false;
+    closeButton.focus({preventScroll:true});
+  });
   examine.addEventListener('click',openLightbox);
   image.addEventListener('dblclick',openLightbox);
   closeButton.addEventListener('click',closeLightbox);
