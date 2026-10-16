@@ -616,6 +616,67 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
   .resources.is-seen .res-panel:hover {transform:none!important;}
 }
 
+
+/* Documentary exhibition: scroll-linked stages, original artifact, independent resources. */
+.documentary-archive{position:relative;z-index:7;background:var(--glacier);color:var(--ruby);min-height:220svh;padding:clamp(90px,11vh,165px) clamp(20px,5vw,90px) 15vh;overflow:clip}
+.archive-intro{max-width:1100px;margin:0 auto 12vh}
+.archive-eyebrow,.archive-step-name,.archive-artifact-top,.archive-examine,.archive-side-note,.resource-discovery-label{font:700 clamp(10px,.85vw,13px)/1.5 'DM Sans',Arial,sans-serif;letter-spacing:.16em}
+.archive-intro h2{font:700 clamp(65px,13vw,210px)/.85 'Barlow Condensed',Arial,sans-serif;letter-spacing:-.055em;margin:20px 0 30px;text-wrap:balance}
+.archive-summary{font:400 clamp(16px,1.4vw,21px)/1.5 'Fraunces',Georgia,serif;color:#161616}
+.archive-layout{display:grid;grid-template-columns:minmax(215px,.38fr) minmax(0,1fr);gap:clamp(28px,5vw,95px);align-items:start;min-height:140svh}
+.archive-index{position:sticky;top:24vh;display:flex;flex-direction:column;gap:clamp(10px,2.2vh,23px)}
+.archive-index-item{appearance:none;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:13px 0 18px;border:0;border-bottom:1px solid rgba(158,0,60,.32);background:transparent;color:var(--ruby);font:700 clamp(16px,1.7vw,28px)/1.1 'Barlow Condensed',Arial,sans-serif;letter-spacing:.025em;cursor:pointer;transition:padding .5s cubic-bezier(.16,1,.3,1),opacity .5s}
+.archive-index-item[aria-current=step],.archive-index-item:hover{padding-left:16px}
+.archive-index-item:not([aria-current]){opacity:.56}
+.archive-index-item span{font-size:.65em}
+.archive-stage{position:sticky;top:11vh;min-height:clamp(460px,75svh,850px);perspective:1500px}
+.archive-stage-inner{position:relative;height:clamp(460px,75svh,850px);transform-style:preserve-3d;--archive-depth:0}
+.archive-layer{position:absolute;border:2px solid var(--ruby);pointer-events:none;will-change:transform}
+.archive-layer-back{width:70%;height:69%;right:3%;top:4%;opacity:.27;transform:translate3d(calc(var(--archive-depth)*-35px),calc(var(--archive-depth)*-28px),-100px) rotate(-9deg)}
+.archive-layer-mid{width:58%;height:72%;right:16%;top:12%;opacity:.23;transform:translate3d(calc(var(--archive-depth)*35px),calc(var(--archive-depth)*28px),-40px) rotate(13deg)}
+.archive-narrative{position:relative;z-index:4;width:min(92%,650px);padding:clamp(22px,4vw,58px);background:var(--white);border:1px solid var(--ruby);box-shadow:20px 23px 0 rgba(158,0,60,.11);transition:opacity .4s,transform .55s cubic-bezier(.16,1,.3,1)}
+.archive-narrative.is-changing{opacity:.25;transform:translateX(35px)}
+.archive-step-copy{font:400 clamp(22px,3.3vw,48px)/1.23 'Fraunces',Georgia,serif;color:#161616;margin:28px 0 0}
+.archive-artifact{appearance:none;display:flex;flex-direction:column;gap:10px;position:absolute;z-index:5;right:0;bottom:4%;width:clamp(210px,44%,465px);height:clamp(245px,44svh,440px);padding:clamp(15px,2vw,30px);background:#fff;border:1px solid var(--ruby);color:#161616;text-align:left;box-shadow:-15px 15px 0 rgba(158,0,60,.15);overflow:hidden;cursor:zoom-in;transform:translate3d(calc(var(--archive-depth)*16px),calc(var(--archive-depth)*-12px),60px) rotate(3deg);transition:box-shadow .3s}
+.archive-artifact:hover{box-shadow:-22px 28px 0 rgba(158,0,60,.18)}
+.archive-artifact-top{color:var(--ruby);font-size:10px}
+.archive-nyt{font:700 clamp(22px,3.1vw,44px)/1.05 Georgia,serif;letter-spacing:-.05em;border-block:2px solid #161616;padding-block:8px;margin-top:9px}
+.archive-headline{font:700 clamp(17px,2.2vw,29px)/1.16 Georgia,serif}
+.archive-original{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;z-index:6}
+.archive-original[hidden]{display:none}
+.archive-examine{margin-top:auto;font-size:10px;color:var(--ruby)}
+.archive-side-note{position:absolute;bottom:0;left:0;width:45%;font-size:10px;letter-spacing:0;line-height:1.6;color:#333}
+.archive-scroll-track{height:2px;width:100%;background:rgba(158,0,60,.17);margin-top:25vh}
+.archive-scroll-track span{display:block;height:100%;width:100%;background:var(--ruby);transform:scaleX(var(--archive-progress,0));transform-origin:left}
+.archive-lightbox{position:fixed;z-index:1000;inset:0;border:0;padding:clamp(16px,4vw,65px);width:100vw;max-width:none;height:100dvh;max-height:none;background:rgba(8,18,20,.96);color:#fff}
+.archive-lightbox:not([open]){display:none}
+.archive-lightbox .archive-lightbox-inner{display:grid;place-items:center;min-height:90%;gap:18px}
+.archive-lightbox img{max-width:100%;max-height:78dvh;width:auto;height:auto;object-fit:contain}
+.archive-lightbox .archive-lightbox-close{position:fixed;top:22px;right:22px;background:var(--white);color:var(--ruby);border:1px solid var(--ruby);width:46px;height:46px;cursor:pointer;font-size:25px}
+.archive-lightbox .archive-lightbox-fallback{max-width:600px;padding:35px;background:#fff;color:#161616;text-align:center}
+.archive-lightbox .archive-lightbox-fallback b{font:700 clamp(19px,4vw,35px)/1.15 Georgia,serif}
+.resources .res-panel{cursor:pointer}
+.resource-discovery{position:relative;z-index:9;background:var(--white);border:1px solid var(--ruby);padding:clamp(20px,4vw,55px);margin-top:5vh;color:#161616;animation:resource-disclose .65s cubic-bezier(.16,1,.3,1) both}
+.resource-discovery[hidden]{display:none}
+.resource-discovery h3{font:700 clamp(33px,6vw,84px)/.95 'Barlow Condensed',Arial,sans-serif;color:var(--ruby);margin:12px 0 25px}
+.resource-discovery p{line-height:1.6}
+.resource-discovery button{padding:12px 22px;border:1px solid var(--ruby);background:var(--glacier);color:var(--ruby);cursor:pointer}
+@keyframes resource-disclose{from{opacity:0;transform:translateY(45px)}to{opacity:1;transform:none}}
+@media(max-width:780px){
+ .documentary-archive{min-height:auto;padding:100px 20px}
+ .archive-layout{display:block;min-height:auto}
+ .archive-index{position:relative;top:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:25px}
+ .archive-index-item{font-size:15px;padding:16px 5px}
+ .archive-stage{position:relative;top:auto;height:auto;min-height:650px}
+ .archive-stage-inner{height:650px}
+ .archive-narrative{width:100%;padding:26px}
+ .archive-step-copy{font-size:clamp(23px,6vw,36px)}
+ .archive-artifact{right:5%;bottom:11%;width:80%;height:300px;transform:rotate(2deg)}
+ .archive-side-note{width:100%;bottom:0;font-size:10px}
+ .archive-scroll-track{display:none}
+}
+@media(prefers-reduced-motion:reduce){.archive-layer,.archive-artifact{transform:none!important}.archive-narrative,.resource-discovery{animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -692,6 +753,41 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
           </div>
         </div>
         <div class="story-transition" aria-hidden="true"><span></span><span></span><span></span></div>
+
+        <section class="documentary-archive" id="story-archive" aria-labelledby="archive-heading">
+          <div class="archive-intro">
+            <p class="archive-eyebrow">A PERSONAL ACCOUNT</p>
+            <h2 id="archive-heading">WHAT CHANGED?</h2>
+            <p class="archive-summary">Explore the experiences and materials behind Kile's story.</p>
+          </div>
+          <div class="archive-layout">
+            <nav class="archive-index" aria-label="Explore the turning points">
+              <button class="archive-index-item is-current" type="button" data-archive-step="0" aria-current="step">WHAT I BELIEVED <span aria-hidden="true">↗</span></button>
+              <button class="archive-index-item" type="button" data-archive-step="1">WHAT I HEARD <span aria-hidden="true">↗</span></button>
+              <button class="archive-index-item" type="button" data-archive-step="2">WHAT I SAW <span aria-hidden="true">↗</span></button>
+              <button class="archive-index-item" type="button" data-archive-step="3">WHAT I STUDIED <span aria-hidden="true">↗</span></button>
+            </nav>
+            <div class="archive-stage">
+              <div class="archive-stage-inner">
+                <div class="archive-layer archive-layer-back" aria-hidden="true"></div>
+                <div class="archive-layer archive-layer-mid" aria-hidden="true"></div>
+                <div class="archive-narrative" aria-live="polite">
+                  <p class="archive-step-name">WHAT I BELIEVED</p>
+                  <p class="archive-step-copy">For years I was an antizionist. My academic assumptions shaped how I understood Israel.</p>
+                </div>
+                <button class="archive-artifact" id="archive-artifact" type="button" aria-haspopup="dialog" aria-label="Examine October 2023 newspaper headline artifact">
+                  <span class="archive-artifact-top">OCTOBER 2023 / MEDIA ARTIFACT</span>
+                  <span class="archive-nyt">The New York Times</span>
+                  <span class="archive-headline">Israeli Strike Kills Hundreds in Hospital, Palestinians Say</span>
+                  <img class="archive-original" id="archive-original" src="./resources/nyt-october-2023-original.jpg" alt="Screenshot of the October 2023 New York Times front page supplied for Kile's story" loading="lazy" decoding="async" onerror="this.hidden=true">
+                  <span class="archive-examine">EXAMINE ORIGINAL ↗</span>
+                </button>
+                <span class="archive-side-note">The original headline is shown as a historical media artifact, not presented as a verified account of the hospital explosion.</span>
+              </div>
+            </div>
+          </div>
+          <div class="archive-scroll-track" aria-hidden="true"><span></span></div>
+        </section>
       </section>
 
       <section class="community scene" id="community" data-section="community" aria-labelledby="community-title">
@@ -715,6 +811,13 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
         <div class="resources-head reveal"><h2 id="resources-title">RESOURCES</h2></div>
         <div class="resources-panels"><div class="res-panel"><div><span class="res-label">Other Unlikely Zionists</span></div></div><div class="res-panel"><div><span class="res-label">Challenging Stereotypes</span></div></div><div class="res-panel"><div><span class="res-label">How to Respond</span></div></div></div>
         <div class="resources-underline" aria-hidden="true"></div>
+
+        <div class="resource-discovery" id="resource-discovery" aria-live="polite" hidden>
+          <p class="resource-discovery-label">COLLECTION IN DEVELOPMENT</p>
+          <h3 id="resource-discovery-title">Other Unlikely Zionists</h3>
+          <p>Resources will appear here when they have been reviewed and approved.</p>
+          <button type="button" id="resource-close" aria-label="Close resource collection">CLOSE ↗</button>
+        </div>
       </section>
 
 
@@ -2059,6 +2162,95 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
   }
   addEventListener('uz-chapter-change',()=>{hasFrame=false;});
   requestAnimationFrame(draw);
+})();
+</script>
+
+
+<script>
+/* Documentary timeline and accessible original-media examination. */
+(() => {
+  const archive=document.getElementById('story-archive');
+  if(!archive)return;
+  const steps=[
+    ['WHAT I BELIEVED','For years I was an antizionist. My academic assumptions shaped how I understood Israel.'],
+    ['WHAT I HEARD','After October 7, I began questioning the headlines, slogans, and demonizations of Israel I was hearing.'],
+    ['WHAT I SAW','What happened to a Jewish friend—and reactions in my own political circles—made me reconsider my assumptions.'],
+    ['WHAT I STUDIED','I spent the following year researching the history and reconsidering what I had learned for myself.']
+  ];
+  const buttons=[...archive.querySelectorAll('[data-archive-step]')];
+  const name=archive.querySelector('.archive-step-name');
+  const copy=archive.querySelector('.archive-step-copy');
+  const panel=archive.querySelector('.archive-narrative');
+  let current=0;
+  let animation=null;
+  function activate(index){
+    if(index===current)return;
+    current=index;
+    buttons.forEach((b,i)=>{if(i===index)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+    if(animation)animation.cancel();
+    const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    name.textContent=steps[index][0];
+    copy.textContent=steps[index][1];
+    if(!reduced){
+      animation=panel.animate([{opacity:.2,transform:'translateX(-35px)'},{opacity:1,transform:'translateX(0)'}],{duration:580,easing:'cubic-bezier(.16,1,.3,1)'});
+    }
+  }
+  buttons.forEach((b,i)=>b.addEventListener('click',()=>activate(i)));
+  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+  let ticking=false;
+  function onScroll(){
+    ticking=false;
+    if(reduced.matches)return;
+    const box=archive.getBoundingClientRect(),height=Math.max(1,box.height-innerHeight);
+    const progress=Math.max(0,Math.min(1,-box.top/height));
+    archive.style.setProperty('--archive-progress',progress.toFixed(3));
+    archive.style.setProperty('--archive-depth',((progress-.5)*2).toFixed(3));
+    if(innerWidth>780)activate(Math.min(3,Math.floor(progress*4)));
+  }
+  addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll);}}, {passive:true});
+  addEventListener('resize',onScroll,{passive:true});
+  onScroll();
+  // Show original screenshot only when the resource upload has actually been supplied.
+  const original=document.getElementById('archive-original');
+  const artifact=document.getElementById('archive-artifact');
+  const modal=document.createElement('dialog');
+  modal.className='archive-lightbox';
+  modal.setAttribute('aria-label','Examine historical newspaper artifact');
+  modal.innerHTML='<button type="button" class="archive-lightbox-close" aria-label="Close artifact">×</button><div class="archive-lightbox-inner"><img alt="Original New York Times screenshot, October 2023" hidden><div class="archive-lightbox-fallback"><p>The New York Times / October 2023</p><b>Israeli Strike Kills Hundreds in Hospital, Palestinians Say</b><p>Original screenshot will appear here once it is connected.</p></div></div>';
+  document.body.appendChild(modal);
+  const image=modal.querySelector('img');
+  const fallback=modal.querySelector('.archive-lightbox-fallback');
+  artifact.addEventListener('click',()=>{
+    if(original.complete && original.naturalWidth){
+      image.src=original.currentSrc||original.src;
+      image.hidden=false;
+      fallback.hidden=true;
+    }else{image.hidden=true;fallback.hidden=false;}
+    modal.showModal();
+    modal.querySelector('button').focus();
+  });
+  modal.querySelector('button').addEventListener('click',()=>modal.close());
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.close();});
+  const discovery=document.getElementById('resource-discovery');
+  const detail=document.getElementById('resource-discovery-title');
+  const choices=[...document.querySelectorAll('.resources .res-panel')];
+  choices.forEach((panel,i)=>{
+    panel.setAttribute('role','button');
+    panel.setAttribute('tabindex','0');
+    panel.setAttribute('aria-label','Explore '+panel.textContent.trim());
+    function open(){
+      detail.textContent=panel.textContent.trim();
+      discovery.hidden=false;
+      discovery.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'center'});
+    }
+    panel.addEventListener('click',open);
+    panel.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+  });
+  const resourceClose=document.getElementById('resource-close');
+  resourceClose.addEventListener('click',()=>{
+    discovery.hidden=true;
+    document.getElementById('resources-title').scrollIntoView({behavior:reduced.matches?'instant':'smooth'});
+  });
 })();
 </script>
 
