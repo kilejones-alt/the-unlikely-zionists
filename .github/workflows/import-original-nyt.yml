@@ -1,4 +1,4 @@
-name: Import owner-supplied original NYT screenshot
+name: Import original source media without alteration
 
 on:
   push:
@@ -32,7 +32,30 @@ jobs:
               with urlopen(Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=20) as res:
                 data=res.read(2000000)
               print(url,'bytes:',len(data))
-              if len(data)!=143835 or not data.startswith(bytes.fromhex('ffd8')) or not data.endswith(bytes.fromhex('ffd9')):
+              if not data.startswith(bytes.fromhex('ffd8')) or not data.endswith(bytes.fromhex('ffd9')):
+                continue
+              # The original user-supplied screenshot is 900x773.
+              # A higher-resolution original with the exact same aspect is acceptable;
+              # no generated, reconstructed, or altered asset is allowed.
+              i=2
+              dimensions=None
+              while i+10<len(data):
+                if data[i]!=255:
+                  i+=1
+                  continue
+                mark=data[i+1]
+                i+=2
+                if mark in (216,217,218): break
+                if i+2>len(data):break
+                size=int.from_bytes(data[i:i+2],'big')
+                if 192<=mark<=195 and size>=7:
+                  h=int.from_bytes(data[i+3:i+5],'big')
+                  w=int.from_bytes(data[i+5:i+7],'big')
+                  dimensions=(w,h)
+                  break
+                i+=size
+              print('Decoded JPEG dimensions:',dimensions)
+              if not dimensions or min(dimensions)<773 or abs(dimensions[0]/dimensions[1] - 900/773)>.004:
                 continue
               Path('assets').mkdir(exist_ok=True)
               Path('assets/nyt-october-2023-original.jpg').write_bytes(data)
