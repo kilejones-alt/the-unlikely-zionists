@@ -821,6 +821,21 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
  .story-viewer.is-kile-portrait #viewer-image{width:190%}
 }
 
+
+/* Non-fabricated source articles complete the public record of the first story. */
+.story-viewer .viewer-sources{display:grid;gap:11px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(158,0,60,.28)}
+.story-viewer .viewer-sources[hidden]{display:none}
+.story-viewer .viewer-sources a{font:700 clamp(12px,1.2vw,15px)/1.45 'DM Sans',Arial,sans-serif;color:var(--ruby);text-decoration:underline;text-underline-offset:4px}
+.story-viewer .viewer-sources a:hover{color:#271019}
+.story-viewer.is-kile-portrait.photo-webgl-ready .viewer-photo img:not([hidden]),
+.story-viewer.is-news-photo.photo-webgl-ready .viewer-photo img:not([hidden]){opacity:1!important}
+.story-viewer:is(.is-kile-portrait,.is-news-photo) canvas.story-photo-webgl{display:none!important}
+.story-viewer.is-news-photo .viewer-photo{box-shadow:12px 20px 0 rgba(158,0,60,.17)}
+@media(max-width:700px){
+ .story-viewer .viewer-sources{gap:8px;padding-top:12px;margin-top:14px}
+ .story-viewer .viewer-sources a{font-size:12px}
+}
+
 </style>
 </head>
 <body>
@@ -1074,7 +1089,7 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
       <header class="viewer-header"><span>STORIES</span><button type="button" id="viewer-close" class="viewer-close" aria-label="Close story view"><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M2 2l26 26M28 2L2 28"/></svg></button></header>
       <button class="viewer-photo" type="button" id="viewer-photo" aria-label="Add a real photograph to this empty story template"><div class="viewer-photo-shape"></div><span class="viewer-photo-mark" aria-hidden="true">+</span><img alt="" id="viewer-image" hidden></button>
       <button class="viewer-nyt-artifact" type="button" id="viewer-nyt-artifact" aria-label="Examine original October 2023 New York Times headline"><img src="assets/nyt-october-2023-original.jpg" alt="Original October 2023 New York Times front-page screenshot" loading="lazy" decoding="async"><span>2023 / HISTORICAL HEADLINE ↗</span></button>
-       <article id="viewer-public-story" class="viewer-public-story" hidden aria-live="polite"><h3 id="viewer-public-name"></h3><div id="viewer-public-text"></div><div id="viewer-public-turning-point"></div></article>
+       <article id="viewer-public-story" class="viewer-public-story" hidden aria-live="polite"><h3 id="viewer-public-name"></h3><div id="viewer-public-text"></div><div id="viewer-public-turning-point"></div><nav class="viewer-sources" id="viewer-first-person-sources" aria-label="Kile’s published firsthand accounts" hidden><a href="https://kilejones.substack.com/p/how-fast-they-believed-it-part-i" target="_blank" rel="noopener noreferrer">How Fast They Believed It — Kile’s account</a><a href="https://kilejones.substack.com/p/i-was-taught-israel-was-evil" target="_blank" rel="noopener noreferrer">I Was Taught Israel Was Evil — extended account</a></nav></article>
       <div class="viewer-story-template" aria-hidden="true"><div class="viewer-template-rule"></div><div class="viewer-template-heading"></div><div class="viewer-template-line"></div><div class="viewer-template-line"></div><div class="viewer-template-line"></div><div class="viewer-template-line"></div><div class="viewer-template-line"></div><div class="viewer-template-foot"></div></div>
       <div class="viewer-controls"><button type="button" id="viewer-prev" aria-label="Previous story"><svg viewBox="0 0 34 30" aria-hidden="true"><path d="M32 15H2m12-12L2 15l12 12"/></svg></button><button type="button" id="viewer-next" aria-label="Next story"><svg viewBox="0 0 34 30" aria-hidden="true"><path d="M2 15h30M20 3l12 12-12 12"/></svg></button></div>
     </div>
@@ -1239,6 +1254,7 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
     viewer.classList.toggle('is-text-chapter', !published && (state.active===3 || state.active===4));
     viewer.classList.toggle('is-kile-portrait', !published && state.active === 0);
     viewer.classList.toggle('is-news-photo', !published && state.active === 2);
+    document.getElementById('viewer-first-person-sources').hidden = Boolean(published || state.active !== 4);
     const publishedArticle = document.getElementById('viewer-public-story');
     publishedArticle.hidden = !(published || staticItem);
     if (published) {
