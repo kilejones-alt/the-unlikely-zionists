@@ -788,6 +788,39 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
 @media(prefers-reduced-motion:reduce){
  .story-viewer .viewer-nyt-artifact{transition:none!important;transform:none!important}
 }
+
+/* Documentary first story: front-facing photography, never a fabricated portrait.
+   Cropped existing authorized image until the supplied solo B&W file can be hosted. */
+.stories .story-card.is-portrait .photo-plane,
+.stories .story-card.is-newspaper .photo-plane{overflow:hidden}
+.stories .story-card.is-portrait .photo-plane>img{
+  width:172%;height:100%;max-width:none;position:absolute;
+  right:0;left:auto;top:0;object-fit:cover;object-position:100% 36%;
+  filter:grayscale(1) contrast(1.17);
+}
+.stories .story-card.is-portrait .story-card-copy{z-index:5}
+.stories .story-card.is-newspaper .photo-plane>img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+}
+.story-viewer.is-kile-portrait #viewer-image{
+  inset:0 auto 0 auto;right:0;left:auto;width:170%;max-width:none;height:100%;
+  object-fit:cover;object-position:100% 40%;
+  filter:grayscale(1) contrast(1.12);
+}
+.story-viewer.is-news-photo #viewer-image{
+  width:100%;height:100%;object-fit:contain;object-position:center;
+  background:var(--white);filter:none;
+}
+.story-viewer.is-open .viewer-photo{transform:translate3d(0,0,0) rotate(0deg) scale(1)!important}
+.story-viewer.is-open.is-news-photo .viewer-photo{width:min(68vw,720px);height:min(72vh,700px)}
+.story-viewer.is-open .viewer-photo img{transform:none!important}
+.story-viewer.is-open.is-kile-portrait .viewer-photo img{transform:none!important}
+.story-viewer.is-open.is-text-chapter .viewer-nyt-artifact{transform:translate3d(0,0,0) rotate(0deg)}
+@media(max-width:700px){
+ .story-viewer.is-open.is-news-photo .viewer-photo{width:calc(100% - 36px);height:min(47vh,400px)}
+ .story-viewer.is-kile-portrait #viewer-image{width:190%}
+}
+
 </style>
 </head>
 <body>
@@ -851,9 +884,9 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
         <div class="story-stage" id="story-stage">
           <div class="stage-rails" aria-hidden="true"><span></span><span></span><span></span></div>
           <div class="story-deck" id="story-deck" role="group" aria-label="Photographic story positions">
-            <button type="button" class="story-card copy-card" data-index="0" aria-label="Open Kile story introduction" style="--offset:0"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile is an unlikely Zionist.</strong><em>A PERSONAL STORY</em></span></span></span></span></button>
+            <button type="button" class="story-card photo-slot has-photo is-portrait" data-index="0" aria-label="Open the first story: Kile B. Jones" style="--offset:0"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><img src="assets/kile-family-portrait.jpg" alt="" decoding="async"><span class="story-card-copy"><strong>Kile B. Jones</strong><em>A PERSONAL STORY</em></span></span></span></span></button>
             <button type="button" class="story-card copy-card" data-index="1" aria-label="Open Kile story details" style="--offset:1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile is non-Jewish.</strong><p>He’s an atheist. He’s a liberal. He’s never been to Israel.</p></span></span></span></span></button>
-            <button type="button" class="story-card photo-slot has-photo" data-index="2" aria-label="Open Kile’s photograph" style="--offset:2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><img src="assets/kile-family-portrait.jpg" alt="" decoding="async"><span class="story-card-copy"><strong>Here’s the story.</strong></span></span></span></span></button>
+            <button type="button" class="story-card photo-slot has-photo is-newspaper" data-index="2" aria-label="Open the historical New York Times headline in Kile’s story" style="--offset:2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><img src="assets/nyt-october-2023-original.jpg" alt="" decoding="async"><span class="story-card-copy"><strong>The headlines.</strong></span></span></span></span></button>
             <button type="button" class="story-card copy-card" data-index="3" aria-label="Open Kile story text" style="--offset:-2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile's story</strong><p>After October 7th, I began questioning my views of Israel.</p></span></span></span></span></button>
             <button type="button" class="story-card copy-card" data-index="4" aria-label="Read Kile’s full story" style="--offset:-1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Read the full story.</strong><p>Continue to Kile’s complete account.</p></span></span></span></span></button>
           </div>
@@ -1076,9 +1109,9 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
         "turning_point": ""
     },
     {
-        "name": "Kile",
-        "story": "Here's the story.",
-        "turning_point": ""
+        "name": "The headlines",
+        "story": "An original October 2023 New York Times front-page screenshot, preserved as part of the media record Kile was encountering. The report attributed the claim to Palestinians; its initial allegations should not be treated as independently established facts.",
+        "turning_point": "Read the original image as a historical news artifact."
     },
     {
         "name": "Kile's story",
@@ -1107,7 +1140,7 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
   const progressLine = document.querySelector('#deck-progress-line');
   const progress = document.querySelector('.reading-progress');
   const orderedScenes = [...document.querySelectorAll('[data-section]')];
-  const staticPhotoUrls = [null,null,'assets/kile-family-portrait.jpg',null,null];
+  const staticPhotoUrls = ['assets/kile-family-portrait.jpg',null,'assets/nyt-october-2023-original.jpg',null,null];
 
   function setMenu(open) {
     state.menuOpen = open;
@@ -1204,6 +1237,8 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
     const url = published ? (published.photos[0] || null) : (state.photos[state.active] || staticPhotoUrls[state.active]);
     viewer.classList.toggle('published-story', Boolean(published || staticItem));
     viewer.classList.toggle('is-text-chapter', !published && (state.active===3 || state.active===4));
+    viewer.classList.toggle('is-kile-portrait', !published && state.active === 0);
+    viewer.classList.toggle('is-news-photo', !published && state.active === 2);
     const publishedArticle = document.getElementById('viewer-public-story');
     publishedArticle.hidden = !(published || staticItem);
     if (published) {
@@ -1219,8 +1254,8 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
     const viewerPhoto = document.querySelector('#viewer-photo');
     viewerPhoto.setAttribute('aria-label', published
       ? 'Approved real photograph associated with a submitted story'
-      : staticItem && state.active===2
-        ? "Kile's approved photograph"
+      : staticItem && state.active===0
+        ? "Kile B. Jones portrait"
         : (url ? 'Replace the current locally selected photograph'
         : 'Choose a real photograph for this empty story position'));
     if (!url) {
@@ -1229,6 +1264,7 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
       return;
     }
     viewerImage.src = url;
+    viewerImage.alt = !published && state.active === 0 ? "Kile B. Jones, photographic portrait" : !published && state.active === 2 ? "Archival New York Times headline from October 2023" : published ? "Contributor-supplied photograph" : "";
     viewerImage.hidden = false;
   }
 
