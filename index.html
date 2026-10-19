@@ -1014,6 +1014,39 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
  .story-viewer .viewer-public-story{transition:none!important}
 }
 
+
+/* Second layout pass: perfectly matched card insets and frontal carousel. */
+.stories .story-card.photo-slot.has-photo .photo-plane,
+.stories .story-card.copy-card .photo-plane{
+  inset:12px;border:1px solid rgba(158,0,60,.45);
+}
+.stories .story-deck .story-card:not(.is-active){
+  transform:translate3d(
+    calc(-50% + var(--offset)*min(20.5vw,255px)),
+    calc(-50% + var(--abs-offset)*2.25vh),
+    calc(-20px - var(--abs-offset)*65px)
+  ) rotateY(calc(var(--offset)*-5deg)) rotateZ(0deg)!important;
+  opacity:calc(1 - var(--abs-offset)*.13);
+  filter:saturate(.88);
+}
+.stories .story-deck .story-card.is-active{
+  transform:translate3d(-50%,-50%,0) rotateY(0deg) rotateZ(0deg)!important;
+  filter:none;
+}
+.stories .story-card .story-card-copy{text-wrap:pretty}
+.stories .story-card .story-card-copy strong{text-wrap:balance}
+@media(max-width:650px){
+ .stories .story-card.photo-slot.has-photo .photo-plane,
+ .stories .story-card.copy-card .photo-plane{inset:9px}
+ .stories .story-deck .story-card:not(.is-active){
+   transform:translate3d(
+     calc(-50% + var(--offset)*31vw),
+     calc(-50% + var(--abs-offset)*1.75vh),
+     calc(-15px - var(--abs-offset)*55px)
+   ) rotateY(calc(var(--offset)*-4deg)) rotateZ(0deg)!important;
+ }
+}
+
 </style>
 </head>
 <body>
