@@ -836,6 +836,184 @@ html.scroll-chapter-active :is(#stories-title,#community-title,#resources-title,
  .story-viewer .viewer-sources a{font-size:12px}
 }
 
+
+/* 2026-10-19 — Documented layout pass: card and viewer containment.
+   Every image remains undistorted; all full text stays reachable via scrolling. */
+.stories .story-card{min-width:0}
+.stories .story-card .card-sheet{overflow:hidden;border-radius:0}
+.stories .story-card .photo-surface{inset:0;overflow:hidden}
+.stories .story-card .photo-plane{inset:12px;overflow:hidden}
+.stories .story-card .photo-plane>img{display:block;max-width:none;width:100%;height:100%;object-fit:cover}
+.stories .story-card.is-portrait .photo-plane>img{
+  left:0;right:0;top:0;width:100%;height:100%;
+  object-fit:cover;object-position:81% 37%;
+  filter:grayscale(1) contrast(1.08);
+}
+.stories .story-card.is-newspaper .photo-plane>img{
+  width:100%;height:100%;object-fit:contain;object-position:center center;
+  background:#fff;filter:none;
+}
+.stories .story-card .story-card-copy{
+  box-sizing:border-box;
+  left:clamp(10px,1.5vw,19px);right:clamp(10px,1.5vw,19px);
+  bottom:clamp(10px,1.5vw,19px);
+  max-height:calc(100% - 25px);
+  max-width:calc(100% - 20px);
+  overflow:hidden;
+  padding:clamp(12px,1.6vw,20px);
+  background:rgba(255,255,255,.97);
+  border:1px solid rgba(158,0,60,.15);
+  box-shadow:0 10px 24px rgba(20,29,39,.06);
+  text-align:left;
+}
+.stories .story-card .story-card-copy strong{
+  display:block;font-size:clamp(19px,2.15vw,31px);
+  line-height:1.07;letter-spacing:-.037em;
+  overflow-wrap:break-word;
+}
+.stories .story-card .story-card-copy p{
+  font:400 clamp(12px,.94vw,14px)/1.48 'DM Sans',Arial,sans-serif;
+  margin:11px 0 0;color:#20252c;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;
+  line-clamp:6;overflow:hidden;overflow-wrap:break-word;
+}
+.stories .story-card .story-card-copy em{
+  font-size:clamp(10px,.85vw,12px);line-height:1.4;letter-spacing:.07em
+}
+.stories .story-card.photo-slot.has-photo .story-card-copy{
+  max-height:47%;padding:clamp(12px,1.5vw,19px);
+  background:rgba(255,255,255,.95);border:1px solid rgba(158,0,60,.16);
+  box-shadow:none
+}
+.stories .story-card.is-active{transform:translate3d(-50%,-50%,0) rotateY(0deg) rotateZ(0deg)!important;opacity:1}
+.story-viewer{overflow:hidden}
+.story-viewer .viewer-photo{box-sizing:border-box;overflow:hidden;max-width:calc(100vw - 36px);border-width:2px}
+.story-viewer .viewer-photo img{
+  display:block;object-fit:contain;object-position:center center;
+  max-width:none;width:100%;height:100%;
+}
+.story-viewer.is-kile-portrait #viewer-image{
+  inset:0;left:0;right:0;top:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:82% 37%;
+  filter:grayscale(1) contrast(1.08);
+}
+.story-viewer.is-news-photo #viewer-image{
+  inset:0;width:100%;height:100%;object-fit:contain;
+  object-position:center center;background:#fff
+}
+.story-viewer .viewer-public-story{
+  box-sizing:border-box;min-width:0;overflow-y:auto;overflow-x:hidden;
+  scrollbar-gutter:stable;
+  max-height:calc(100dvh - 185px);
+  padding:clamp(20px,2.2vw,34px);
+  background:rgba(255,255,255,.97);
+  color:#222831;
+  border:1px solid rgba(158,0,60,.55);
+  overflow-wrap:break-word;
+  box-shadow:0 16px 30px rgba(23,30,36,.08);
+}
+.story-viewer .viewer-public-story h3{
+  color:var(--ruby);font-size:clamp(24px,2.65vw,42px);
+  line-height:1.12;letter-spacing:-.033em;
+  overflow-wrap:break-word;
+}
+.story-viewer .viewer-public-story #viewer-public-text{
+  color:#20252c;font-size:clamp(14px,1.2vw,18px);line-height:1.62;
+  white-space:pre-wrap;overflow-wrap:break-word
+}
+.story-viewer .viewer-public-story #viewer-public-turning-point{
+  color:#343b45;overflow-wrap:break-word
+}
+.story-viewer.is-open.published-story:not(.is-text-chapter) .viewer-photo{
+  width:min(44vw,555px);height:min(64dvh,600px);
+  margin-left:clamp(-170px,-11vw,-58px);
+}
+.story-viewer.is-open.published-story:not(.is-text-chapter) .viewer-public-story{
+  width:min(32vw,465px);right:clamp(22px,4vw,70px);
+  top:50%;bottom:auto;left:auto;max-height:min(60dvh,590px);
+  transform:translateY(-50%);opacity:1
+}
+.story-viewer.is-open.is-text-chapter .viewer-public-story{
+  box-sizing:border-box;
+  width:min(780px,calc(100vw - 72px));
+  max-height:calc(100dvh - 200px);
+  left:50%;right:auto;top:clamp(95px,15dvh,175px);bottom:auto;
+  padding:clamp(24px,3.7vw,52px);
+  overflow-y:auto;transform:translate(-50%,0);
+  box-shadow:14px 18px 0 rgba(158,0,60,.12)
+}
+.story-viewer.is-open.is-text-chapter .viewer-nyt-artifact{display:none!important}
+.story-viewer .viewer-sources a{display:block;overflow-wrap:anywhere}
+.story-viewer .viewer-controls{bottom:max(18px,env(safe-area-inset-bottom,0px) + 15px)}
+.story-viewer.is-open.is-news-photo .viewer-photo{width:min(50vw,620px);height:min(65dvh,600px)}
+.resources .res-panel{min-width:0;overflow:hidden}
+.resources .res-panel>div{max-width:100%;min-width:0;overflow-wrap:break-word}
+.documentary-archive .archive-layout>*{min-width:0}
+.documentary-archive img{display:block;max-width:100%;height:auto;object-fit:contain}
+.submit .submission-step{min-width:0;overflow-wrap:break-word}
+.submit .submission-step h3{max-width:100%;overflow-wrap:break-word}
+@media(max-width:900px){
+ .story-viewer.is-open.published-story:not(.is-text-chapter) .viewer-photo{
+   width:min(47vw,410px);height:min(54dvh,500px);margin-left:-15vw;
+ }
+ .story-viewer.is-open.published-story:not(.is-text-chapter) .viewer-public-story{
+   right:18px;width:min(41vw,340px);max-height:53dvh;
+ }
+}
+@media(max-width:650px){
+ .stories .story-card{width:min(76vw,315px);height:min(410px,52dvh)}
+ .stories .story-card .photo-plane{inset:9px}
+ .stories .story-card .story-card-copy{left:11px;right:11px;bottom:11px;max-width:calc(100% - 22px);padding:13px}
+ .stories .story-card .story-card-copy strong{font-size:clamp(20px,5.4vw,27px)}
+ .stories .story-card .story-card-copy p{font-size:13px;-webkit-line-clamp:5;line-clamp:5}
+ .stories .story-card.photo-slot.has-photo .story-card-copy{padding:13px;max-height:48%}
+ .story-viewer .viewer-header{
+   top:calc(14px + env(safe-area-inset-top,0px));left:18px;right:18px;
+ }
+ .story-viewer .viewer-photo{max-width:calc(100vw - 32px)}
+ .story-viewer.is-open.published-story:not(.is-text-chapter) .viewer-photo{
+   position:absolute;top:clamp(90px,13dvh,120px);left:50%;margin:0;
+   width:min(75vw,330px);height:clamp(160px,34dvh,320px);
+   translate:-50% 0;
+ }
+ .story-viewer.is-open.is-news-photo .viewer-photo{
+   width:min(88vw,440px);height:clamp(160px,32dvh,310px);
+ }
+ .story-viewer.is-open.published-story:not(.is-text-chapter) .viewer-public-story{
+   left:16px;right:16px;top:auto;
+   bottom:calc(82px + env(safe-area-inset-bottom,0px));
+   width:auto;max-height:clamp(120px,25dvh,220px);
+   padding:14px 18px;transform:translateY(0)
+ }
+ .story-viewer.is-open.is-text-chapter .viewer-public-story{
+   left:16px;right:16px;top:calc(83px + env(safe-area-inset-top,0px));
+   bottom:calc(83px + env(safe-area-inset-bottom,0px));
+   width:auto;max-height:none;padding:clamp(20px,5vw,30px);
+   transform:translate(0,0);box-shadow:8px 10px 0 rgba(158,0,60,.12)
+ }
+ .story-viewer .viewer-public-story h3{font-size:clamp(24px,6vw,32px);margin-bottom:11px}
+ .story-viewer .viewer-public-story #viewer-public-text{font-size:15px;line-height:1.62}
+ .story-viewer .viewer-public-story #viewer-public-turning-point{font-size:13px;margin-top:12px}
+ .story-viewer .viewer-sources{margin-top:14px;padding-top:12px}
+ .story-viewer .viewer-controls{bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+ .story-viewer .viewer-controls button{width:48px;height:48px}
+ .story-viewer.is-open.is-text-chapter #viewer-photo{opacity:0;visibility:hidden;pointer-events:none}
+ .story-viewer .viewer-nyt-artifact{display:none!important}
+ .resources .resources-panels{gap:10px;overflow:hidden}
+ .resources .res-panel{min-width:0}
+ .submit .submission-step{padding:clamp(22px,5vw,32px) 16px}
+ .submit .submission-step h3{font-size:clamp(30px,8vw,45px);line-height:1.12}
+}
+@media(max-height:650px) and (min-width:651px){
+ .story-viewer.is-open.is-text-chapter .viewer-public-story{top:77px;max-height:calc(100dvh - 148px)}
+ .story-viewer .viewer-controls{bottom:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .stories .story-card.is-active{transition:none!important}
+ .story-viewer .viewer-public-story{transition:none!important}
+}
+
 </style>
 </head>
 <body>
