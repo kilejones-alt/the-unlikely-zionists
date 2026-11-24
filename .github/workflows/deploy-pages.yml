@@ -25,7 +25,7 @@ jobs:
       - name: Prepare safe public files
         run: |
           mkdir -p dist
-          cp index.html preview.html dist/
+          cp index.html preview.html form-mail.js content-update.css dist/
           cp -R assets dist/assets
           touch dist/.nojekyll
           # Do NOT publish admin.html, server.py, credentials, or uploads.

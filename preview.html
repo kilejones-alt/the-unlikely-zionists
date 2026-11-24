@@ -396,6 +396,7 @@ p{color:var(--ink)}
 }
 
 </style>
+<link rel="stylesheet" href="content-update.css">
 </head>
 <body>
   <div id="app">
@@ -461,7 +462,7 @@ p{color:var(--ink)}
             <button type="button" class="story-card copy-card" data-index="0" aria-label="Open Kile story introduction" style="--offset:0"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile is an unlikely Zionist.</strong><em>Story 01</em></span></span></span></span></button>
             <button type="button" class="story-card copy-card" data-index="1" aria-label="Open Kile story details" style="--offset:1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile is non-Jewish.</strong><p>He’s an atheist. He’s a liberal. He’s never been to Israel.</p></span></span></span></span></button>
             <button type="button" class="story-card photo-slot has-photo" data-index="2" aria-label="Open Kile’s photograph" style="--offset:2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><img src="assets/kile-family-portrait.jpg" alt="" decoding="async"><span class="story-card-copy"><strong>Here’s the story.</strong></span></span></span></span></button>
-            <button type="button" class="story-card copy-card" data-index="3" aria-label="Open Kile story text" style="--offset:-2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile's story</strong><p>After October 7th, I began questioning my views of Israel.</p></span></span></span></span></button>
+            <button type="button" class="story-card copy-card" data-index="3" aria-label="Open Kile story text" style="--offset:-2"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Kile's story</strong><p></p></span></span></span></span></button>
             <button type="button" class="story-card copy-card" data-index="4" aria-label="Read Kile’s full story" style="--offset:-1"><span class="card-sheet"><span class="photo-surface"><span class="photo-plane"><span class="photo-placeholder-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="story-card-copy"><strong>Read the full story.</strong><p>Continue to Kile’s complete account.</p></span></span></span></span></button>
           </div>
           <div class="deck-controls">
@@ -492,8 +493,13 @@ p{color:var(--ink)}
 
       <section class="resources scene" id="resources" data-section="resources" aria-labelledby="resources-title">
         <div class="resources-head reveal"><h2 id="resources-title">RESOURCES</h2></div>
-        <div class="resources-panels"><div class="res-panel"><div><span class="res-label">Other Unlikely Zionists</span></div></div><div class="res-panel"><div><span class="res-label">Challenging Stereotypes</span></div></div><div class="res-panel"><div><span class="res-label">How to Respond</span></div></div></div>
+        <div class="resources-panels"><a class="res-panel" href="https://kilejones.substack.com/p/the-october-turn-the-attorney"><div><span class="res-label">Other Unlikely Zionists</span></div></a><div class="res-panel"><div><span class="res-label">Challenging Stereotypes</span></div></div><div class="res-panel"><div><span class="res-label">How to Respond</span></div></div></div>
         <div class="resources-underline" aria-hidden="true"></div>
+        <nav class="resource-reading-list" aria-label="The October Turn">
+          <a href="https://kilejones.substack.com/p/the-october-turn-the-attorney">The October Turn: The Attorney</a>
+          <a href="https://kilejones.substack.com/p/the-october-turn-part-ii-names-withheld">The October Turn, Part II: Names Withheld</a>
+          <a href="https://kilejones.substack.com/p/the-october-turn-part-iii">The October Turn, Part III</a>
+        </nav>
       </section>
 
 
@@ -611,6 +617,7 @@ p{color:var(--ink)}
     <div class="reading-progress" aria-hidden="true"><span></span></div>
     <input type="file" id="image-picker" accept="image/*" hidden aria-label="Select an approved photograph for local preview">
   </div>
+  <script src="form-mail.js"></script>
   <script defer>
 (() => {
   'use strict';
@@ -645,12 +652,12 @@ p{color:var(--ink)}
     },
     {
         "name": "Kile's story",
-        "story": "After October 7th, I began questioning what I had believed about Israel for years. What happened to a Jewish friend and what I saw in my own political circles made me reconsider assumptions I'd acquired in graduate school. I spent the next year researching the history for myself.",
+        "story": "",
         "turning_point": "Swipe right to read Kile's full story."
     },
     {
         "name": "Kile's story",
-        "story": "After October 7th, I began questioning my views of Israel. In graduate school at Boston University, postcolonial and other critical theories had led me to see Israel as a Western construct and an illegitimate nation-state. But after seeing what happened to a Jewish friend, and how many fellow liberals treated Jews, I felt something was deeply wrong. The headlines, slogans, and repeated libels pushed me to study the origins of the state and revisit the scholarship for myself. Over the following year, I deconstructed my assumptions and came to see the familiar depiction of Israel as a settler-colonial, imperialist caricature rather than a truthful account. I now view Israel positively and work with the Jewish community to fight antizionism, antisemitism, and the many ways Jew-hatred is manifested.",
+        "story": "",
         "turning_point": ""
     }
 ];
@@ -841,13 +848,13 @@ p{color:var(--ink)}
   deck.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
     drag = { id:event.pointerId, x:event.clientX, y:event.clientY, started:performance.now(), horizontal:false };
-    deck.setPointerCapture?.(event.pointerId);
+
   });
   deck.addEventListener('pointermove', event => {
     if (!drag || event.pointerId !== drag.id) return;
     const dx = event.clientX - drag.x;
     const dy = event.clientY - drag.y;
-    if (!drag.horizontal && Math.abs(dx) > 9 && Math.abs(dx) > Math.abs(dy) * 1.15) drag.horizontal = true;
+    if (!drag.horizontal && Math.abs(dx) > 9 && Math.abs(dx) > Math.abs(dy) * 1.15) { drag.horizontal = true; deck.setPointerCapture?.(event.pointerId); }
     if (!drag.horizontal) return;
     deck.classList.add('is-dragging');
     const visualShift = Math.max(-42,Math.min(42,dx * .2));
@@ -863,13 +870,13 @@ p{color:var(--ink)}
       deck.dataset.dragged = 'true';
       setTimeout(() => { delete deck.dataset.dragged; }, 140);
     }
-    deck.releasePointerCapture?.(event.pointerId);
+    if (deck.hasPointerCapture?.(event.pointerId)) deck.releasePointerCapture(event.pointerId);
     deck.classList.remove('is-dragging');
     cards.forEach(card => card.style.removeProperty('--drag-x'));
     drag = null;
   });
   deck.addEventListener('pointercancel', event => {
-    if (drag && event.pointerId === drag.id) deck.releasePointerCapture?.(event.pointerId);
+    if (drag && event.pointerId === drag.id) if (deck.hasPointerCapture?.(event.pointerId)) deck.releasePointerCapture(event.pointerId);
     deck.classList.remove('is-dragging');
     cards.forEach(card => card.style.removeProperty('--drag-x'));
     drag = null;
@@ -1040,7 +1047,25 @@ p{color:var(--ink)}
 
   // No invented success claims. This offline preview intentionally does not transmit personal data.
   const signup = document.querySelector('#community-form');
-  signup.addEventListener('submit', event => event.preventDefault());
+  const joinButton=signup.querySelector('button[type="submit"]');
+  const joinStatus=document.getElementById('form-status');
+  let joining=false;
+  const syncJoin=()=>{joinButton.disabled=joining||!signup.checkValidity();};
+  signup.addEventListener('input',syncJoin);
+  signup.addEventListener('change',syncJoin);
+  syncJoin();
+  signup.addEventListener('submit',async event=>{
+    event.preventDefault();
+    if(joining||!signup.reportValidity())return;
+    joining=true;syncJoin();joinStatus.textContent='';
+    try{
+      await window.UnlikelyZionistsMail.send(signup,'Community request');
+      signup.reset();
+      joinStatus.textContent='';
+    }catch{
+      joinStatus.textContent='Could not submit privately. Your story has not been sent.';
+    }finally{joining=false;syncJoin();}
+  });
 
 
   // Four-step private story intake. No optimistic success when the backend is absent.
@@ -1171,29 +1196,10 @@ p{color:var(--ink)}
     nextStep.disabled=true;
     formError.textContent='';
     try {
-      // No client-side persistence. A functioning private server must acknowledge receipt.
-      if (location.protocol === 'file:' || location.protocol === 'about:') {
-        throw new Error('This is a local preview. Private submissions are only accepted when the included server is running. Nothing was sent.');
-      }
-      if (!['https:', 'http:'].includes(location.protocol)) {
-        throw new Error('This is a local preview. Nothing has been sent.');
-      }
-      if (location.protocol !== 'https:' && !['localhost','127.0.0.1'].includes(location.hostname)) {
-        throw new Error('Private stories require a secure HTTPS connection. Nothing has been sent.');
-      }
-      // Check the real private receiver before transferring any story or images.
-      const health = null; // Public-only site: private story intake remains disconnected.
-      const ready = health?.ok ? await health.json().catch(()=>null) : null;
-      if (!ready || ready.story_intake !== true || ready.moderation_configured !== true) {
-        throw new Error('Private story submissions are not connected on this preview. Nothing was sent or stored.');
-      }
-      const response={ok:false,json:async()=>({error:'Private submissions are not connected yet. Nothing has been sent or stored.'})};
-      const data=await response.json().catch(()=>null);
-      if(!response.ok || !data || data.received!==true || typeof data.id!=='string') {
-        throw new Error(data?.error || 'Private submissions are not connected on this preview yet. No story or image was sent.');
-      }
+      const data=await window.UnlikelyZionistsMail.send(storyForm,'Story submission');
       storySteps.forEach(step=>{step.setAttribute('aria-hidden','true');step.inert=true});
       storyForm.querySelector('.form-controls').hidden=true;
+      storyForm.querySelector('.form-controls').style.display='none';
       successPanel.setAttribute('aria-hidden','false');
       successTitle.textContent='Your story was received privately.';
       successCopy.textContent='Your story has not been published. Reference: '+data.id;
@@ -1208,6 +1214,7 @@ p{color:var(--ink)}
   });
   document.getElementById('story-restart').addEventListener('click',()=>{
     storyForm.querySelector('.form-controls').hidden=false;
+    storyForm.querySelector('.form-controls').style.removeProperty('display');
     successPanel.setAttribute('aria-hidden','true');
     storyForm.reset();resetPreview();showName();showStoryStep(0,true);
   });
