@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const endpoint='https://formsubmit.co/ajax/c079591d84c865a3c180911463dd3fd5';
-  const website='https://kilejones-alt.github.io/the-unlikely-zionists/';
+  const website='https://kilejones.com/unlikely-zionists/';
   const failure='Could not submit privately. Your story has not been sent.';
   function build(form,kind){
     const source=new FormData(form),body=new FormData();
